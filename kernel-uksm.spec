@@ -42,7 +42,7 @@ Summary: The Linux kernel
 # For non-released -rc kernels, this will be appended after the rcX and
 # gitX tags, so a 3 here would become part of release "0.rcX.gitX.3"
 #
-%global baserelease 200
+%global baserelease 201
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
@@ -1880,6 +1880,9 @@ fi
 #
 #
 %changelog
+* Mon Jun 25 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.17.2-201
+- Add UKSM
+
 * Mon Jun 18 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.2-200
 - Linux v4.17.2 Rebase
 
