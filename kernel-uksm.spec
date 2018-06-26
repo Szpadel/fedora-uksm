@@ -1880,7 +1880,7 @@ fi
 #
 #
 %changelog
-* Mon Jun 25 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.17.2-201
+* Tue Jun 26 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.17.2-201
 - Add UKSM
 
 * Mon Jun 18 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.2-200
