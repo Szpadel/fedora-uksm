@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 2
+%define stable_update 3
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -600,6 +600,9 @@ Patch310: arm-dts-Add-am335x-pocketbeagle.patch
 # https://www.spinics.net/lists/linux-tegra/msg32920.html
 Patch311: arm-tegra-USB-driver-dependency-fix.patch
 
+# https://patchwork.kernel.org/patch/10348701/
+Patch312: arm64-msm8916-fix-gic_irq_domain_translate-warnings.patch
+
 # https://patchwork.kernel.org/patch/10354521/
 # https://patchwork.kernel.org/patch/10354187/
 # https://patchwork.kernel.org/patch/10306793/
@@ -623,12 +626,36 @@ Patch501: Fix-for-module-sig-verification.patch
 # rhbz 1431375
 Patch502: input-rmi4-remove-the-need-for-artifical-IRQ.patch
 
+# rhbz 1470995
+Patch503: kexec-bzimage-verify-pe-signature-fix.patch
+
 # rbhz 1435837
 # https://www.spinics.net/lists/linux-acpi/msg82405.html
 Patch504: mailbox-ACPI-erroneous-error-message-when-parsing-ACPI.patch
 
-# CVE-2018-12232 rhbz 1590215 1590216
-Patch506: 0001-socket-close-race-condition-between-sock_close-and-s.patch
+# https://www.spinics.net/lists/platform-driver-x86/msg15719.html
+Patch507: platform-x86-dell-laptop-Fix-keyboard-backlight-time.patch
+
+# rhbz 1577106
+# http://lists.infradead.org/pipermail/ath10k/2018-June/011582.html
+Patch508: ath10k-Update-the-phymode-along-with-bandwidth-change.patch
+
+# rhbz 1568276
+# In 4.18
+Patch509: rtc-nvmem-don-t-return-an-error-when-not-enabled.patch
+
+# rhbz 1584216
+Patch510: 1-2-xen-netfront-Fix-mismatched-rtnl_unlock.patch
+Patch511: 2-2-xen-netfront-Update-features-after-registering-netdev.patch
+
+# CVE-2018-12633 rhbz 1594170 1594172
+Patch512: 0001-virt-vbox-Only-copy_from_user-the-request-header-onc.patch
+
+# rhbz 1592454
+Patch514: 0001-media-uvcvideo-Support-realtek-s-UVC-1.5-device.patch
+
+# rhbz 1591516
+Patch515: 0001-signal-Stop-special-casing-TRAP_FIXME-and-FPE_FIXME-.patch
 
 Patch900: uksm-4.17.patch
 # END OF PATCH DEFINITIONS
@@ -1880,8 +1907,28 @@ fi
 #
 #
 %changelog
-* Tue Jun 26 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.17.2-201
+* Fri Jun 29 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.17.3-201
 - Add UKSM
+
+* Tue Jun 26 2018 Jeremy Cline <jcline@redhat.com> - 4.17.3-200
+- Linux v4.17.3
+
+* Mon Jun 25 2018 Laura Abbott <labbott@fedoraproject.org>
+- Some webcam fixes (rhbz 1592454 1590304)
+- Fix for armv7 siginfo ABI regression (rhbz 1591516)
+
+* Fri Jun 22 2018 Justin M. Forbes <jforbes@fedoraproject.org>
+- Fix CVE-2018-12633 (rhbz 1594170 1594172)
+
+* Thu Jun 21 2018 Laura Abbott <labbott@fedoraproject.org>
+- Fix for Xen MTU issue (rhbz 1584216)
+
+* Thu Jun 21 2018 Peter Robinson <pbrobinson@fedoraproject.org>
+- Add fix for 96boards DB410c
+
+* Tue Jun 19 2018 Jeremy Cline <jeremy@jcline.org>
+- Re-apply the XPS 13 9370 backlight, ath10k bandwidth, and kexec patches
+- Don't log an error if RTC_NVMEM isn't enabled (rhbz 1568276)
 
 * Mon Jun 18 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.2-200
 - Linux v4.17.2 Rebase
