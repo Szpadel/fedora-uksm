@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 3
+%define stable_update 4
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -583,9 +583,6 @@ Patch304: ACPI-irq-Workaround-firmware-issue-on-X-Gene-based-m400.patch
 # https://patchwork.kernel.org/patch/9820417/
 Patch305: qcom-msm89xx-fixes.patch
 
-# https://patchwork.kernel.org/patch/10173115/
-Patch306: arm-dts-imx6qdl-udoo-Disable-usbh1-to-avoid-kernel-hang.patch
-
 # https://marc.info/?l=linux-kernel&m=152328880417846&w=2
 Patch307: arm64-thunderx-crypto-zip-fixes.patch
 
@@ -608,8 +605,6 @@ Patch312: arm64-msm8916-fix-gic_irq_domain_translate-warnings.patch
 # https://patchwork.kernel.org/patch/10306793/
 # https://patchwork.kernel.org/patch/10133165/
 Patch313: mvebu-a37xx-fixes.patch
-
-Patch324: bcm283x-clk-audio-fixes.patch
 
 # Enabling Patches for the RPi3+
 Patch330: bcm2837-rpi-initial-3plus-support.patch
@@ -648,14 +643,11 @@ Patch509: rtc-nvmem-don-t-return-an-error-when-not-enabled.patch
 Patch510: 1-2-xen-netfront-Fix-mismatched-rtnl_unlock.patch
 Patch511: 2-2-xen-netfront-Update-features-after-registering-netdev.patch
 
-# CVE-2018-12633 rhbz 1594170 1594172
-Patch512: 0001-virt-vbox-Only-copy_from_user-the-request-header-onc.patch
-
-# rhbz 1592454
-Patch514: 0001-media-uvcvideo-Support-realtek-s-UVC-1.5-device.patch
-
 # rhbz 1591516
 Patch515: 0001-signal-Stop-special-casing-TRAP_FIXME-and-FPE_FIXME-.patch
+
+# rhbz 1572944
+Patch517: Revert-the-random-series-for-4.16.4.patch
 
 Patch900: uksm-4.17.patch
 # END OF PATCH DEFINITIONS
@@ -1907,8 +1899,20 @@ fi
 #
 #
 %changelog
-* Fri Jun 29 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.17.3-201
+* Thu Jul 05 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.17.4-201
 - Add UKSM
+
+* Tue Jul 03 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.4-200
+- Linux v4.17.4
+
+* Fri Jun 29 2018 Jeremy Cline <jeremy@jcline.org>
+- Revert the CRNG init patches (rhbz 1572944)
+
+* Thu Jun 28 2018 Jeremy Cline <jeremy@jcline.org>
+- Fix CVE-2018-12714 (rhbz 1595835 1595837)
+
+* Tue Jun 26 2018 Laura Abbott <labbott@redhat.com>
+- Enable leds-pca9532 module (rhbz 1595163)
 
 * Tue Jun 26 2018 Jeremy Cline <jcline@redhat.com> - 4.17.3-200
 - Linux v4.17.3
