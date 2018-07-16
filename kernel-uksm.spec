@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 5
+%define stable_update 6
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -645,6 +645,9 @@ Patch511: 2-2-xen-netfront-Update-features-after-registering-netdev.patch
 
 # rhbz 1591516
 Patch515: 0001-signal-Stop-special-casing-TRAP_FIXME-and-FPE_FIXME-.patch
+
+# rhbz 1599917
+Patch516: Bluetooth-btusb-Add-additional-device-ID-for-RTL8822.patch
 
 # rhbz 1572944
 Patch517: Revert-the-random-series-for-4.16.4.patch
@@ -1918,8 +1921,14 @@ fi
 #
 #
 %changelog
-* Thu Jul 12 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.17.5-201
+* Mon Jul 16 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.17.6-201
 - Add UKSM
+
+* Wed Jul 11 2018 Jeremy Cline <jcline@redhat.com> - 4.17.6-200
+- Linux v4.17.6
+
+* Wed Jul 11 2018 Jeremy Cline <jeremy@jcline.org>
+- Add device ID for RTL8822BE in the Asus ROG GL702ZC (rhbz 1599917)
 
 * Mon Jul 09 2018 Jeremy Cline <jcline@redhat.com> - 4.17.5-200
 - Linux v4.17.5
