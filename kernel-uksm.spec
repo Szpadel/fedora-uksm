@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 9
+%define stable_update 10
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -1923,8 +1923,11 @@ fi
 #
 #
 %changelog
-* Thu Jul 26 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.17.9-201
+* Mon Jul 30 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.17.10-201
 - Add UKSM
+
+* Wed Jul 25 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.10-200
+- Linux v4.17.10
 
 * Mon Jul 23 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.9-200
 - Linux v4.17.9
