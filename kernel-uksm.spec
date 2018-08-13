@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 12
+%define stable_update 14
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -659,20 +659,11 @@ Patch518: alarmtimer-prevent-overflow-for-relative-nanosleep.patch
 Patch519: 1-2-posix-timers-Make-forward-callback-return-s64.patch
 Patch520: 2-2-posix-timers-Sanitize-overrun-handling.patch
 
-# CVE-2018-13093 rhbz 1597766 1597767
-Patch521: 0001-xfs-validate-cached-inodes-are-free-when-allocated.patch
-
-# CVE-2018-13094 rhbz 1597771 1597772
-Patch522: 0001-xfs-don-t-call-xfs_da_shrink_inode-with-NULL-bp.patch
-
 # CVE-2018-13095 rhbz 1597775 1597777
 Patch523: 0001-xfs-More-robust-inode-extent-count-validation.patch
 
 # rhbz 1597333
 # Patch526: xhci-Fix-perceived-dead-host-due-to-runtime-suspend-.patch
-
-# CVE-2018-14678 rhbz 1608559 1608560
-Patch530: xsa274-linux-4_17.patch
 
 Patch900: uksm-4.17.patch
 # END OF PATCH DEFINITIONS
@@ -1924,8 +1915,14 @@ fi
 #
 #
 %changelog
-* Mon Aug 06 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.17.12-201
+* Mon Aug 13 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.17.14-201
 - Add UKSM
+
+* Thu Aug 09 2018 Justin M. Forbes <jforbes@redhat.com> - 4.17.14-200
+- Linux v4.17.14
+
+* Wed Aug 08 2018 Justin M. Forbes <jforbes@redhat.com> - 4.17.13-200
+- Linux v4.17.13
 
 * Fri Aug 03 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.12-200
 - Linux v4.17.12
