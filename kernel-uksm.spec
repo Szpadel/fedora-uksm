@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 5
+%define stable_update 8
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -597,17 +597,11 @@ Patch308: mmc-sunxi-allow-3.3V-DDR-when-DDR-is-available.patch
 # https://patchwork.kernel.org/patch/10540521/
 Patch309: mmc-sunxi-remove-output-of-virtual-base-address.patch
 
-Patch310: arm-dts-armada388-helios4.patch
-
 # https://www.spinics.net/lists/arm-kernel/msg670137.html
 Patch311: arm64-ZynqMP-firmware-clock-drivers-core.patch
 
 # Enabling Patches for the RPi3+
 Patch330: bcm2837-enable-pmu.patch
-
-Patch331: bcm2835-cpufreq-add-CPU-frequency-control-driver.patch
-
-Patch332: bcm2835-hwmon-Add-support-for-RPi-voltage-sensor.patch
 
 # https://patchwork.freedesktop.org/patch/240917/
 Patch334: drm-vc4-Fix-the-no-scaling-case-on-multi-planar-YUV-formats.patch
@@ -627,11 +621,15 @@ Patch501: Fix-for-module-sig-verification.patch
 # rhbz 1431375
 Patch502: input-rmi4-remove-the-need-for-artifical-IRQ.patch
 
-# rhbz 1470995
-Patch503: kexec-bzimage-verify-pe-signature-fix.patch
-
 # CVE-2018-15471 rhbz 1610555 1618414
 Patch504: xsa270.patch
+
+# rhbz 1627963 1628715
+Patch505: HID-fixes.patch
+
+# rhbz 1572944
+Patch506: 0001-random-add-a-config-option-to-trust-the-CPU-s-hwrng.patch
+Patch507: 0001-random-make-CPU-trust-a-boot-parameter.patch
 
 Patch900: uksm-4.18.patch
 # END OF PATCH DEFINITIONS
@@ -1883,10 +1881,28 @@ fi
 #
 #
 %changelog
-* Tue Sep 11 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.18.5-201
+* Tue Sep 18 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.18.8-201
 - Add UKSM
 
-* Fri Aug 24 2018 Laura Abbott <labbott@redhat.com> - 4.18.5-300
+* Sun Sep 16 2018 Laura Abbott <labbott@redhat.com> - 4.18.8-300
+- Linux v4.18.8
+
+* Fri Sep 14 2018 Justin M. Forbes <jforbes@fedoraproject.org>
+- Additional Fixes for CVE-2018-5391 (rhbz 1616059)
+
+* Thu Sep 13 2018 Laura Abbott <labbott@redhat.com>
+- Use the CPU RNG for entropy (rhbz 1572944)
+
+* Thu Sep 13 2018 Laura Abbott <labbott@redhat.com>
+- HID fixes (rhbz 1627963 1628715)
+
+* Mon Sep 10 2018 Laura Abbott <labbott@redhat.com> - 4.18.7-200
+- Linux v4.18.7
+
+* Sun Sep 09 2018 Laura Abbott <labbott@redhat.com> - 4.18.6-200
+- Linux v4.18.6
+
+* Fri Aug 24 2018 Laura Abbott <labbott@redhat.com> - 4.18.5-200
 - Linux v4.18.5
 
 * Fri Aug 24 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.17.19-200
