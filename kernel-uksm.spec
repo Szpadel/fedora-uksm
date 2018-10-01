@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 9
+%define stable_update 10
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -590,8 +590,6 @@ Patch305: qcom-msm89xx-fixes.patch
 # https://patchwork.kernel.org/project/linux-mmc/list/?submitter=71861
 Patch306: arm-sdhci-esdhc-imx-fixes.patch
 
-Patch307: arm-tegra-fix-nouveau-crash.patch
-
 # https://patchwork.kernel.org/patch/10539291/
 Patch308: mmc-sunxi-allow-3.3V-DDR-when-DDR-is-available.patch
 # https://patchwork.kernel.org/patch/10540521/
@@ -627,6 +625,12 @@ Patch504: xsa270.patch
 # rhbz 1572944
 Patch506: 0001-random-add-a-config-option-to-trust-the-CPU-s-hwrng.patch
 Patch507: 0001-random-make-CPU-trust-a-boot-parameter.patch
+
+# CVE-2018-14633 rhbz 1626035 1632185
+Patch508: CVE-2018-14633.patch
+
+# rhbz 1628394
+Patch509: powerpc-ipv6.patch
 
 Patch900: uksm-4.18.patch
 # END OF PATCH DEFINITIONS
@@ -1878,11 +1882,21 @@ fi
 #
 #
 %changelog
-* Fri Sep 21 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.18.9-201
+* Mon Oct 01 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.18.10-201
 - Add UKSM
+
+* Wed Sep 26 2018 Laura Abbott <labbott@redhat.com> - 4.18.10-200
+- Linux v4.18.10
+
+* Wed Sep 26 2018 Laura Abbott <labbott@redhat.com>
+- Fix powerpc IPv6 (rhbz 1628394)
+
+* Mon Sep 24 2018 Justin M. Forbes <jforbes@fedoraproject.org>
+- Fix CVE-2018-14633 (rhbz 1626035 1632185)
 
 * Thu Sep 20 2018 Laura Abbott <labbott@redhat.com> - 4.18.9-200
 - Linux v4.18.9
+- Fixes CVE-2018-17182 (rhbz 1631205 1631206)
 
 * Sun Sep 16 2018 Laura Abbott <labbott@redhat.com> - 4.18.8-200
 - Linux v4.18.8
