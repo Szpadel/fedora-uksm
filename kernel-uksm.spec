@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 11
+%define stable_update 12
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -624,8 +624,8 @@ Patch504: xsa270.patch
 Patch506: 0001-random-add-a-config-option-to-trust-the-CPU-s-hwrng.patch
 Patch507: 0001-random-make-CPU-trust-a-boot-parameter.patch
 
-# rhbz 1628394
-Patch509: powerpc-ipv6.patch
+# rhbz 1634250
+Patch510: HID-intel-ish-hid-Enable-Sunrise-Point-H-ish-driver.patch
 
 Patch900: uksm-4.18.patch
 # END OF PATCH DEFINITIONS
@@ -1877,8 +1877,20 @@ fi
 #
 #
 %changelog
-* Wed Oct 03 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.18.11-201
+* Mon Oct 08 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.18.12-201
 - Add UKSM
+
+* Thu Oct 04 2018 Laura Abbott <labbott@redhat.com> - 4.18.12-200
+- Linux v4.18.12
+
+* Wed Oct 03 2018 Justin M. Forbes <jforbes@fedoraproject.org>
+- Fix arm64 kvm priv escalation (rhbz 1635475 1635476)
+
+* Mon Oct 01 2018 Laura Abbott <labbott@redhat.com>
+- Disable CONFIG_CRYPTO_DEV_SP_PSP (rhbz 1608242)
+
+* Mon Oct  1 2018 Laura Abbott <labbott@redhat.com>
+- Fix for Intel Sensor Hub (rhbz 1634250)
 
 * Sun Sep 30 2018 Laura Abbott <labbott@redhat.com> - 4.18.11-200
 - Linux v4.18.11
