@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 14
+%define stable_update 15
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -1874,8 +1874,11 @@ fi
 #
 #
 %changelog
-* Wed Oct 17 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.18.14-201
+* Mon Oct 22 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.18.15-201
 - Add UKSM
+
+* Thu Oct 18 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.18.15-200
+- Linux v4.18.15
 
 * Mon Oct 15 2018 Justin M. Forbes <jforbes@fedoraproject.org> - 4.18.14-200
 - Linux v4.18.14
