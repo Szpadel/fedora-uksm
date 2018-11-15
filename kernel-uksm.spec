@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 17
+%define stable_update 18
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -1940,8 +1940,11 @@ fi
 #
 #
 %changelog
-* Wed Nov 07 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.18.17-301
+* Thu Nov 15 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.18.18-301
 - Add UKSM
+
+* Mon Nov 12 2018 Laura Abbott <labbott@redhat.com> - 4.18.18-300
+- Linux v4.18.18
 
 * Mon Nov 05 2018 Laura Abbott <labbott@redhat.com> - 4.18.17-300
 - Linux v4.18.17
