@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 3
+%define stable_update 4
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -584,8 +584,9 @@ Patch307: arm64-ZynqMP-firmware-clock-drivers-core.patch
 
 Patch308: arm64-96boards-Rock960-CE-board-support.patch
 Patch309: arm64-rockchip-add-initial-Rockpro64.patch
+Patch310: arm64-rk3399-add-idle-states.patch
 
-Patch310: gpio-pxa-handle-corner-case-of-unprobed-device.patch
+Patch311: gpio-pxa-handle-corner-case-of-unprobed-device.patch
 
 Patch330: bcm2835-cpufreq-add-CPU-frequency-control-driver.patch
 
@@ -615,6 +616,9 @@ Patch501: Fix-for-module-sig-verification.patch
 
 # rhbz 1431375
 Patch502: input-rmi4-remove-the-need-for-artifical-IRQ.patch
+
+# Ena fixes from 4.20
+Patch503: ena-fixes.patch
 
 # rhbz 1526312, patch is in 4.20, can be dropped on rebase
 Patch507: 0001-HID-i2c-hid-override-HID-descriptors-for-certain-dev.patch
@@ -1890,8 +1894,14 @@ fi
 #
 #
 %changelog
-* Fri Nov 23 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.19.3-301
+* Mon Nov 26 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.19.4-301
 - Add UKSM
+
+* Fri Nov 23 2018 Peter Robinson <pbrobinson@fedoraproject.org> 4.19.4-300
+- Linux v4.19.4
+
+* Thu Nov 22 2018 Peter Robinson <pbrobinson@fedoraproject.org>
+- Fixes for Rockchips 3399 devices
 
 * Wed Nov 21 2018 Jeremy Cline <jcline@redhat.com> - 4.19.3-300
 - Linux v4.19.3
