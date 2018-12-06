@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 5
+%define stable_update 6
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -637,6 +637,13 @@ Patch512: mm-cleancache-fix-corruption-on-missed-inode-invalidation.patch
 
 # CVE-2018-19407 (rhbz 1652656 1652658)
 Patch513: CVE-2018-19407.patch
+
+# rhbz 1650984, in linux-next and Cc'd for stable
+Patch514: net-phy-add-workaround-for-issue-where-PHY-driver-do.patch
+
+# In the PCI tree and Cc'd for stable, fixes an issue with amdgpu
+# https://patchwork.freedesktop.org/patch/259364/
+Patch515: PCI-Fix-incorrect-value-returned-from-pcie_get_speed.patch
 
 Patch900: uksm-4.18.patch
 # END OF PATCH DEFINITIONS
@@ -1900,8 +1907,15 @@ fi
 #
 #
 %changelog
-* Fri Nov 30 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.19.5-301
+* Thu Dec 06 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.19.6-301
 - Add UKSM
+
+* Sun Dec 02 2018 Jeremy Cline <jcline@redhat.com> - 4.19.6-300
+- Linux v4.19.6
+
+* Thu Nov 29 2018 Jeremy Cline <jeremy@jcline.org>
+- Fix a problem with some rtl8168 chips (rhbz 1650984)
+- Fix slowdowns and crashes for AMD GPUs in pre-PCIe-v3 slots
 
 * Tue Nov 27 2018 Jeremy Cline <jcline@redhat.com> - 4.19.5-300
 - Linux v4.19.5
