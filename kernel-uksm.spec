@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 6
+%define stable_update 7
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -632,18 +632,17 @@ Patch510: iio-accel-kxcjk1013-Add-more-hardware-ids.patch
 # rhbz 1650224, patch in subsystem tree and Cc'd for stable
 Patch511: drm-set-is_master-to-0-upon-drm_new_set_master-failure.patch
 
-# CVE-2018-16862 (rhbz 1649017 1653122)
-Patch512: mm-cleancache-fix-corruption-on-missed-inode-invalidation.patch
+# rhbz 1645070 patch queued upstream for merging into 4.21
+Patch516: asus-fx503-keyb.patch
 
-# CVE-2018-19407 (rhbz 1652656 1652658)
-Patch513: CVE-2018-19407.patch
+# rbhz 1554304 patch in the sound tree and Cc'd for stable
+Patch517: ALSA-hda-realtek-Fix-speaker-output-regression-on-Thinkpad.patch
 
-# rhbz 1650984, in linux-next and Cc'd for stable
-Patch514: net-phy-add-workaround-for-issue-where-PHY-driver-do.patch
+# CVE-2018-19824 rhbz 1655816 1655817
+Patch518: alsa-usb-audio-fix-UAF-decrement-if-card-has-no-live.patch
 
-# In the PCI tree and Cc'd for stable, fixes an issue with amdgpu
-# https://patchwork.freedesktop.org/patch/259364/
-Patch515: PCI-Fix-incorrect-value-returned-from-pcie_get_speed.patch
+# https://bugzilla.kernel.org/show_bug.cgi?id=201685
+Patch519: blk-mq-fix-corruption-with-direct-issue.patch
 
 Patch900: uksm-4.18.patch
 # END OF PATCH DEFINITIONS
@@ -1907,8 +1906,23 @@ fi
 #
 #
 %changelog
-* Thu Dec 06 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.19.6-301
+* Mon Dec 10 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.19.7-301
 - Add UKSM
+
+* Wed Dec 05 2018 Jeremy Cline <jcline@redhat.com> - 4.19.7-300
+- Linux v4.19.7
+
+* Wed Dec 05 2018 Jeremy Cline <jeremy@jcline.org>
+- Fix corruption bug in direct dispatch for blk-mq
+
+* Tue Dec 04 2018 Justin M. Forbes <jforbes@fedoraproject.org>
+- Fix CVE-2018-19824 (rhbz 1655816 1655817)
+
+* Mon Dec 03 2018 Jeremy Cline <jeremy@jcline.org>
+- Fix very quiet speakers on the Thinkpad T570 (rhbz 1554304)
+
+* Mon Dec  3 2018 Hans de Goede <hdegoede@redhat.com>
+- Fix non functional hotkeys on Asus FX503VD (#1645070)
 
 * Sun Dec 02 2018 Jeremy Cline <jcline@redhat.com> - 4.19.6-300
 - Linux v4.19.6
