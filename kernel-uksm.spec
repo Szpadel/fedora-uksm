@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 7
+%define stable_update 9
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -598,6 +598,9 @@ Patch332: raspberrypi-Fix-firmware-calls-with-large-buffers.patch
 # https://patchwork.kernel.org/patch/10677591/
 Patch333: hwmon-rpi-Fix-initial-notify.patch
 
+# From 4.20, fix eth link/act lights on 3B+
+Patch334: bcm2837-fix-eth-leds.patch
+
 # Patches enabling device specific brcm firmware nvram
 # https://www.spinics.net/lists/linux-wireless/msg178827.html
 Patch340: brcmfmac-Remove-firmware-loading-code-duplication.patch
@@ -629,20 +632,8 @@ Patch508: cherrytrail-pwm-lpss-fixes.patch
 # rhbz 1526312 (accelerometer part of the bug), patches pending upstream
 Patch510: iio-accel-kxcjk1013-Add-more-hardware-ids.patch
 
-# rhbz 1650224, patch in subsystem tree and Cc'd for stable
-Patch511: drm-set-is_master-to-0-upon-drm_new_set_master-failure.patch
-
 # rhbz 1645070 patch queued upstream for merging into 4.21
 Patch516: asus-fx503-keyb.patch
-
-# rbhz 1554304 patch in the sound tree and Cc'd for stable
-Patch517: ALSA-hda-realtek-Fix-speaker-output-regression-on-Thinkpad.patch
-
-# CVE-2018-19824 rhbz 1655816 1655817
-Patch518: alsa-usb-audio-fix-UAF-decrement-if-card-has-no-live.patch
-
-# https://bugzilla.kernel.org/show_bug.cgi?id=201685
-Patch519: blk-mq-fix-corruption-with-direct-issue.patch
 
 Patch900: uksm-4.18.patch
 # END OF PATCH DEFINITIONS
@@ -1906,8 +1897,20 @@ fi
 #
 #
 %changelog
-* Mon Dec 10 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.19.7-301
+* Mon Dec 17 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.19.9-301
 - Add UKSM
+
+* Thu Dec 13 2018 Jeremy Cline <jcline@redhat.com> - 4.19.9-300
+- Linux v4.19.9
+
+* Tue Dec 11 2018 Hans de Goede <hdegoede@redhat.com>
+- Really fix non functional hotkeys on Asus FX503VD (#1645070)
+
+* Mon Dec 10 2018 Jeremy Cline <jcline@redhat.com> - 4.19.8-300
+- Linux v4.19.8
+
+* Thu Dec  6 2018 Peter Robinson <pbrobinson@fedoraproject.org>
+- Fix for ethernet LEDs on Raspberry Pi 3B+
 
 * Wed Dec 05 2018 Jeremy Cline <jcline@redhat.com> - 4.19.7-300
 - Linux v4.19.7
