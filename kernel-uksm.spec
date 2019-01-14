@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 10
+%define stable_update 14
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -598,8 +598,8 @@ Patch332: raspberrypi-Fix-firmware-calls-with-large-buffers.patch
 # From 4.20, fix eth link/act lights on 3B+
 Patch334: bcm2837-fix-eth-leds.patch
 
-# From 4.20, fix wifi gpio polarity
-Patch335: bcm2837-fix-wifi-gpio-polarity.patch
+# https://patchwork.kernel.org/patch/10741809/
+Patch335: bcm2835-mmc-sdhci-iproc-handle-mmc_of_parse-errors-during-probe.patch
 
 # Patches enabling device specific brcm firmware nvram
 # https://www.spinics.net/lists/linux-wireless/msg178827.html
@@ -634,6 +634,12 @@ Patch510: iio-accel-kxcjk1013-Add-more-hardware-ids.patch
 
 # rhbz 1645070 patch queued upstream for merging into 4.21
 Patch516: asus-fx503-keyb.patch
+
+# rhbz 1661961 patch merged upstream in 4.20
+Patch517: 0001-Bluetooth-btsdio-Do-not-bind-to-non-removable-BCM434.patch
+
+# CVE-2019-3701 rhbz 1663729 1663730
+Patch518: CVE-2019-3701.patch
 
 Patch900: uksm-4.18.patch
 # END OF PATCH DEFINITIONS
@@ -1897,8 +1903,32 @@ fi
 #
 #
 %changelog
-* Thu Dec 20 2018 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.19.10-301
+* Mon Jan 14 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.19.14-301
 - Add UKSM
+
+* Wed Jan 09 2019 Jeremy Cline <jcline@redhat.com> - 4.19.14-300
+- Linux v4.19.14
+
+* Wed Jan 09 2019 Justin M. Forbes <jforbes@fedoraproject.org>
+- Fix CVE-2019-3701 (rhbz 1663729 1663730)
+
+* Mon Jan  7 2019 Hans de Goede <hdegoede@redhat.com>
+- Add patch to fix bluetooth on RPI 3B+ registering twice (rhbz#1661961)
+
+* Sat Dec 29 2018 Jeremy Cline <jcline@redhat.com> - 4.19.13-300
+- Linux v4.19.13
+
+* Thu Dec 27 2018 Hans de Goede <hdegoede@redhat.com>
+- Set CONFIG_REALTEK_PHY=y to workaround realtek ethernet issues (rhbz 1650984)
+
+* Mon Dec 24 2018 Peter Robinson <pbrobinson@fedoraproject.org> 4.19.12-301
+- Another fix for issue affecting Raspberry Pi 3-series WiFi (rhbz 1652093)
+
+* Sat Dec 22 2018 Peter Robinson <pbrobinson@fedoraproject.org> 4.19.12-300
+- Linux v4.19.12
+
+* Thu Dec 20 2018 Jeremy Cline <jcline@redhat.com> - 4.19.11-300
+- Linux v4.19.11
 
 * Mon Dec 17 2018 Jeremy Cline <jcline@redhat.com> - 4.19.10-300
 - Linux v4.19.10
