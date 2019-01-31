@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 4
+%define stable_update 5
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -618,14 +618,20 @@ Patch501: Fix-for-module-sig-verification.patch
 # rhbz 1431375
 Patch502: input-rmi4-remove-the-need-for-artifical-IRQ.patch
 
-# rhbz 1526312 (accelerometer part of the bug), patches pending upstream
+# rhbz 1526312 patch merged into 5.0-rc#
 Patch504: iio-accel-kxcjk1013-Add-more-hardware-ids.patch
 
-# rhbz 1645070 patch queued upstream for merging into 4.21
+# rhbz 1645070 patch merged into 5.0-rc#
 Patch505: asus-fx503-keyb.patch
 
 # CVE-2019-3459 and CVE-2019-3460 rhbz 1663176 1663179 1665925
 Patch507: CVE-2019-3459-and-CVE-2019-3460.patch
+
+# rhbz 1663613 patch merged into 5.0-rc#
+Patch508: 0001-drm-nouveau-register-backlight-on-pascal-and-newer.patch
+
+# CVE-2018-16880 rhbz 1656472 1669545
+Patch509: CVE-2018-16880.patch
 
 Patch900: uksm-4.20.patch
 # END OF PATCH DEFINITIONS
@@ -1899,8 +1905,16 @@ fi
 #
 #
 %changelog
-* Mon Jan 28 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.20.4-201
+* Thu Jan 31 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.20.5-201
 - Add UKSM
+
+* Mon Jan 28 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 4.20.5-200
+- Linux v4.20.5
+- Fix CVE-2018-16880 (rhbz 1656472 1669545)
+
+* Wed Jan 23 2019 Hans de Goede <hdegoede@redhat.com>
+- Add upstream patch fixing backlight control not working on some laptops
+  with a Nvidia GPU (rhbz#1663613, rhbz#1665505)
 
 * Wed Jan 23 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 4.20.4-200
 - Linux v4.20.4
