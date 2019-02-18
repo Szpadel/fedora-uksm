@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 7
+%define stable_update 8
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -576,6 +576,12 @@ Patch305: qcom-msm89xx-fixes.patch
 
 # https://patchwork.kernel.org/project/linux-mmc/list/?submitter=71861
 Patch306: arm-sdhci-esdhc-imx-fixes.patch
+
+# https://patchwork.kernel.org/patch/10765783/
+Patch307: wlcore-sdio-Fixup-power-on-off-sequence.patch
+
+# https://patchwork.kernel.org/patch/10778815/
+Patch308: drm-enable-uncached-DMA-optimization-for-ARM-and-arm64.patch
 
 # https://patchwork.kernel.org/patch/10686407/
 Patch331: raspberrypi-Fix-firmware-calls-with-large-buffers.patch
@@ -1899,8 +1905,17 @@ fi
 #
 #
 %changelog
-* Mon Feb 11 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.20.7-201
+* Mon Feb 18 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.20.8-201
 - Add UKSM
+
+* Tue Feb 12 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 4.20.8-200
+- Linux v4.20.8
+- Fixes CVE-2019-7221 (rhbz 1671904 1673676)
+- Fixes CVE-2019-6974 (rhbz 1671913 1673681)
+- Fixes CVE-2019-7222 (rhbz 1671930 1673686)
+
+* Mon Feb 11 2019 Peter Robinson <pbrobinson@fedoraproject.org>
+- Minor Arm fixes and enhancements
 
 * Wed Feb 06 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 4.20.7-200
 - Linux v4.20.7
