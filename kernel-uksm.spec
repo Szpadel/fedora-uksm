@@ -1229,8 +1229,8 @@ cp_vmlinux()
 # from redhat-rpm-config assume that host == target so target arch
 # flags cause issues with the host compiler.
 %if !%{with_cross}
-%define build_hostcflags  %{?build_cflags}
-%define build_hostldflags %{?build_ldflags} -Wl,--build-id=uuid
+%define build_hostcflags %{?build_cflags} -fipa-pta -flto=4 -fno-common -fgraphite-identity -floop-nest-optimize -O3 -fuse-linker-plugin -fno-semantic-interposition -falign-functions=32
+%define build_hostldflags %{?build_ldflags} -Wl,--build-id=uuid %{?build_hostcflags}
 %endif
 
 BuildKernel() {
@@ -1912,7 +1912,7 @@ fi
 #
 #
 %changelog
-* Fri Feb 22 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.20.11-201
+* Thu Feb 28 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.20.11-201
 - Add UKSM
 
 * Wed Feb 20 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 4.20.11-200
