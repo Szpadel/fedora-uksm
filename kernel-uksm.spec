@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 13
+%define stable_update 14
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -642,6 +642,9 @@ Patch510: CVE-2019-8980.patch
 
 # rhbz 1683382
 Patch511: nfsv4.1-avoid-false-retries.patch
+
+# https://bugs.freedesktop.org/show_bug.cgi?id=109806
+Patch512: 0001-Revert-drm-i915-fbdev-Actually-configure-untiled-dis.patch
 
 Patch900: uksm-4.20.patch
 # END OF PATCH DEFINITIONS
@@ -1915,8 +1918,11 @@ fi
 #
 #
 %changelog
-* Mon Mar 04 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.20.13-201
+* Thu Mar 07 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.20.14-201
 - Add UKSM
+
+* Tue Mar 05 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 4.20.14-200
+- Linux v4.20.14
 
 * Wed Feb 27 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 4.20.13-200
 - Linux v4.20.13
