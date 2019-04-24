@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 8
+%define stable_update 9
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -611,11 +611,14 @@ Patch514: v3-tpm-fix-an-invalid-condition-in-tpm_common_poll.patch
 # rhbz 1683382
 Patch515: nfsv4.1-avoid-false-retries.patch
 
-# CVE-2019-9857 rhbz 1694758 1694759
-Patch516: 0001-inotify-Fix-fsnotify_mark-refcount-leak-in-inotify_u.patch
-
 # CVE-2019-3882 rhbz 1689426 1695571
 Patch517: vfio-type1-limit-dma-mappings-per-container.patch
+
+# CVE-2019-9500 rhbz 1701224 1701226
+Patch518: 0001-brcmfmac-assure-SSID-length-from-firmware-is-limited.patch
+
+# rhbz 1701077
+Patch519: nfsd-wake-waiters-blocked-on-file_lock-before-deleting-it.patch
 
 Patch900: uksm-5.0.patch
 # END OF PATCH DEFINITIONS
@@ -1891,8 +1894,15 @@ fi
 #
 #
 %changelog
-* Tue Apr 23 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.0.8-201
+* Wed Apr 24 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.0.9-201
 - Add UKSM
+
+* Mon Apr 22 2019 Laura Abbott <labbott@redhat.com> - 5.0.9-200
+- Linux v5.0.9
+- Fix NFS server crash (rhbz 1701077)
+
+* Thu Apr 18 2019 Justin M. Forbes <jforbes@fedoraproject.org>
+- Fix CVE-2019-9500 (rhbz 1701224 1701226)
 
 * Wed Apr 17 2019 Laura Abbott <labbott@redhat.com> - 5.0.8-200
 - Linux v5.0.8
