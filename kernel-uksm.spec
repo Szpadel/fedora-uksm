@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 11
+%define stable_update 14
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -1912,8 +1912,17 @@ fi
 #
 #
 %changelog
-* Mon May 06 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.0.11-301
+* Tue May 14 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.0.14-301
 - Add UKSM
+
+* Thu May 09 2019 Laura Abbott <labbott@redhat.com> - 5.0.14-300
+- Linux v5.0.14
+
+* Mon May 06 2019 Laura Abbott <labbott@redhat.com> - 5.0.13-300
+- Linux v5.0.13
+
+* Sat May 04 2019 Laura Abbott <labbott@redhat.com> - 5.0.12-300
+- Linux v5.0.12
 
 * Thu May 02 2019 Laura Abbott <labbott@redhat.com> - 5.0.11-300
 - Linux v5.0.11
