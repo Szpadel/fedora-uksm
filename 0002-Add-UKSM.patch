@@ -1,4 +1,4 @@
-From 0e2515e19195457cf51cb41a20df30bf876ca227 Mon Sep 17 00:00:00 2001
+From 9f062a38a2b16b89df310eb67e2b1cf58204af76 Mon Sep 17 00:00:00 2001
 From: Piotr Rogowski <piotr.rogowski@creativestyle.pl>
 Date: Tue, 11 Jun 2019 11:57:48 +0200
 Subject: [PATCH] Add UKSM
@@ -19,11 +19,11 @@ Subject: [PATCH] Add UKSM
  mm/Kconfig                    |   26 +
  mm/Makefile                   |    3 +-
  mm/ksm.c                      |   11 -
- mm/memory.c                   |   37 +-
+ mm/memory.c                   |   36 +-
  mm/mmap.c                     |   37 +
- mm/uksm.c                     | 5580 +++++++++++++++++++++++++++++++++
+ mm/uksm.c                     | 5607 +++++++++++++++++++++++++++++++++
  mm/vmstat.c                   |    3 +
- 19 files changed, 6510 insertions(+), 28 deletions(-)
+ 19 files changed, 6536 insertions(+), 28 deletions(-)
  create mode 100644 Documentation/vm/uksm.txt
  create mode 100644 include/linux/sradix-tree.h
  create mode 100644 include/linux/uksm.h
@@ -1097,18 +1097,10 @@ index fc64874dc6f4..556e71ce7042 100644
  /*
   * Only called through the sysfs control interface:
 diff --git a/mm/memory.c b/mm/memory.c
-index ab650c21bccd..a58c6261f8e5 100644
+index ab650c21bccd..e6cd12f2cf38 100644
 --- a/mm/memory.c
 +++ b/mm/memory.c
-@@ -70,6 +70,7 @@
- #include <linux/dax.h>
- #include <linux/oom.h>
- #include <linux/numa.h>
-+#include <linux/ksm.h>
- 
- #include <asm/io.h>
- #include <asm/mmu_context.h>
-@@ -129,6 +130,25 @@ EXPORT_SYMBOL(zero_pfn);
+@@ -129,6 +129,25 @@ EXPORT_SYMBOL(zero_pfn);
  
  unsigned long highest_memmap_pfn __read_mostly;
  
@@ -1134,7 +1126,7 @@ index ab650c21bccd..a58c6261f8e5 100644
  /*
   * CONFIG_MMU architectures set up ZERO_PAGE in their paging_init()
   */
-@@ -140,6 +160,7 @@ static int __init init_zero_pfn(void)
+@@ -140,6 +159,7 @@ static int __init init_zero_pfn(void)
  core_initcall(init_zero_pfn);
  
  
@@ -1142,7 +1134,7 @@ index ab650c21bccd..a58c6261f8e5 100644
  #if defined(SPLIT_RSS_COUNTING)
  
  void sync_mm_rss(struct mm_struct *mm)
-@@ -794,6 +815,9 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
+@@ -794,6 +814,9 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
  		get_page(page);
  		page_dup_rmap(page, false);
  		rss[mm_counter(page)]++;
@@ -1152,7 +1144,7 @@ index ab650c21bccd..a58c6261f8e5 100644
  	} else if (pte_devmap(pte)) {
  		page = pte_page(pte);
  
-@@ -807,6 +831,8 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
+@@ -807,6 +830,8 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
  			page_dup_rmap(page, false);
  			rss[mm_counter(page)]++;
  		}
@@ -1161,7 +1153,7 @@ index ab650c21bccd..a58c6261f8e5 100644
  	}
  
  out_set_pte:
-@@ -1075,8 +1101,10 @@ static unsigned long zap_pte_range(struct mmu_gather *tlb,
+@@ -1075,8 +1100,10 @@ static unsigned long zap_pte_range(struct mmu_gather *tlb,
  			ptent = ptep_get_and_clear_full(mm, addr, pte,
  							tlb->fullmm);
  			tlb_remove_tlb_entry(tlb, pte, addr);
@@ -1173,7 +1165,7 @@ index ab650c21bccd..a58c6261f8e5 100644
  
  			if (!PageAnon(page)) {
  				if (pte_dirty(ptent)) {
-@@ -2117,8 +2145,10 @@ static inline void cow_user_page(struct page *dst, struct page *src, unsigned lo
+@@ -2117,8 +2144,10 @@ static inline void cow_user_page(struct page *dst, struct page *src, unsigned lo
  			clear_page(kaddr);
  		kunmap_atomic(kaddr);
  		flush_dcache_page(dst);
@@ -1185,7 +1177,7 @@ index ab650c21bccd..a58c6261f8e5 100644
  }
  
  static gfp_t __get_fault_gfp_mask(struct vm_area_struct *vma)
-@@ -2266,6 +2296,7 @@ static vm_fault_t wp_page_copy(struct vm_fault *vmf)
+@@ -2266,6 +2295,7 @@ static vm_fault_t wp_page_copy(struct vm_fault *vmf)
  							      vmf->address);
  		if (!new_page)
  			goto oom;
@@ -1193,7 +1185,7 @@ index ab650c21bccd..a58c6261f8e5 100644
  	} else {
  		new_page = alloc_page_vma(GFP_HIGHUSER_MOVABLE, vma,
  				vmf->address);
-@@ -2294,7 +2325,9 @@ static vm_fault_t wp_page_copy(struct vm_fault *vmf)
+@@ -2294,7 +2324,9 @@ static vm_fault_t wp_page_copy(struct vm_fault *vmf)
  						mm_counter_file(old_page));
  				inc_mm_counter_fast(mm, MM_ANONPAGES);
  			}
@@ -1365,10 +1357,10 @@ index 2d6a6662edb9..5ef8b65155e1 100644
  
 diff --git a/mm/uksm.c b/mm/uksm.c
 new file mode 100644
-index 000000000000..de08ce28c454
+index 000000000000..5ab3d39915d5
 --- /dev/null
 +++ b/mm/uksm.c
-@@ -0,0 +1,5580 @@
+@@ -0,0 +1,5607 @@
 +/*
 + * Ultra KSM. Copyright (C) 2011-2012 Nai Xia
 + *
@@ -1451,6 +1443,33 @@ index 000000000000..de08ce28c454
 +
 +#ifdef CONFIG_X86
 +#undef memcmp
++
++// Copied from ksm.c and required for linux > 5.1
++bool reuse_ksm_page(struct page *page,
++		    struct vm_area_struct *vma,
++		    unsigned long address)
++{
++#ifdef CONFIG_DEBUG_VM
++	if (WARN_ON(is_zero_pfn(page_to_pfn(page))) ||
++			WARN_ON(!page_mapped(page)) ||
++			WARN_ON(!PageLocked(page))) {
++		dump_page(page, "reuse_ksm_page");
++		return false;
++	}
++#endif
++
++	if (PageSwapCache(page) || !page_stable_node(page))
++		return false;
++	/* Prohibit parallel get_ksm_page() */
++	if (!page_ref_freeze(page, 1))
++		return false;
++
++	page_move_anon_rmap(page, vma);
++	page->index = linear_page_index(vma, address);
++	page_ref_unfreeze(page, 1);
++
++	return true;
++}
 +
 +#ifdef CONFIG_X86_32
 +#define memcmp memcmpx86_32
