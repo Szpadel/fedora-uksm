@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 5
+%define stable_update 7
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -589,7 +589,32 @@ Patch526: 0001-platform-x86-ideapad-laptop-Remove-no_hw_rfkill_list.patch
 # https://lore.kernel.org/linux-bluetooth/20190522070540.48895-1-marcel@holtmann.org/
 Patch527: Bluetooth-Check-key-sizes-only-when-Secure-Simple-Pa.patch
 
-Patch900: uksm-5.0.patch
+# CVE-2019-12378 rhbz 1715459 1715460
+Patch528: ipv6_sockglue-fix-missing-check-bug-in-ip6_ra_control.patch
+
+# CVE-2019-3846 rhbz 1713059 1715475
+Patch529: Buffer-overflow-read-checks-in-mwifiex.patch
+
+# CVE-2019-12380 rhbz 1715494 1715495
+Patch530: 0001-efi-x86-Add-missing-error-handling-to-old_memmap-1-1.patch
+
+# CVE-2019-12381 rhbz 1715501 1715502
+Patch531: 0001-ip_sockglue-Fix-missing-check-bug-in-ip_ra_control.patch
+
+# CVE-2019-12382 rhbz 1715554 1715556
+Patch532: drm-edid-fix-missing-check-bug-in-drm_load_edid_firmware.patch
+
+# CVE-2019-12379 rhbz 1715491 1715706
+Patch533: consolemap-fix-memory-leaking-bug.patch
+
+# CVE-2019-12455 rhbz 1716990 1717003
+Patch534: clk-sunxi-fix-a-missing-check-bug-in-sunxi_divs_clk_setup.patch
+
+# CVE-2019-12454 rhbz 1716996 1717003
+Patch535: wcd9335-fix-a-incorrect-use-of-kstrndup.patch
+
+Patch900: 0001-MultiQueue-Skiplist-Scheduler-version-0.192.patch
+Patch901: 0002-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
 
 %endif
@@ -1828,8 +1853,24 @@ fi
 #
 #
 %changelog
-* Mon Jun 03 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.1.5-301
+* Tue Jun 11 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.1.7-301
 - Add UKSM
+
+* Tue Jun 04 2019 Jeremy Cline <jcline@redhat.com> - 5.1.7-300
+- Linux v5.1.7
+- Fix CVE-2019-12455 (rhbz 1716990 1717003)
+- Fix CVE-2019-12454 (rhbz 1716996 1717003)
+
+* Mon Jun 03 2019 Justin M. Forbes <jforbes@fedoraproject.org>
+- Fix CVE-2019-12378 (rhbz 1715459 1715460)
+- Fix CVE-2019-3846 (rhbz 1713059 1715475)
+- Fix CVE-2019-12380 (rhbz 1715494 1715495)
+- Fix CVE-2019-12381 (rhbz 1715501 1715502)
+- Fix CVE-2019-12382 (rhbz 1715554 1715556)
+- Fix CVE-2019-12379 (rhbz 1715491 1715706)
+
+* Fri May 31 2019 Laura Abbott <labbott@redhat.com> - 5.1.6-300
+- Linux v5.1.6
 
 * Sat May 25 2019 Jeremy Cline <jcline@redhat.com> - 5.1.5-300
 - Linux v5.1.5
