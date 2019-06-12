@@ -613,8 +613,7 @@ Patch534: clk-sunxi-fix-a-missing-check-bug-in-sunxi_divs_clk_setup.patch
 # CVE-2019-12454 rhbz 1716996 1717003
 Patch535: wcd9335-fix-a-incorrect-use-of-kstrndup.patch
 
-Patch900: 0001-MultiQueue-Skiplist-Scheduler-version-0.192.patch
-Patch901: 0002-Add-UKSM.patch
+Patch900: 0002-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
 
 %endif
@@ -1853,7 +1852,7 @@ fi
 #
 #
 %changelog
-* Tue Jun 11 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.1.7-301
+* Wed Jun 12 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.1.7-301
 - Add UKSM
 
 * Tue Jun 04 2019 Jeremy Cline <jcline@redhat.com> - 5.1.7-300
