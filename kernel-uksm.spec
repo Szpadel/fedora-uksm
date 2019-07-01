@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 8
+%define stable_update 15
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -585,10 +585,6 @@ Patch524: net-vhost_net-fix-possible-infinite-loop.patch
 # Fix wifi on various ideapad models not working (rhbz#1703338)
 Patch526: 0001-platform-x86-ideapad-laptop-Remove-no_hw_rfkill_list.patch
 
-# rhbz 1711468
-# https://lore.kernel.org/linux-bluetooth/20190522070540.48895-1-marcel@holtmann.org/
-Patch527: Bluetooth-Check-key-sizes-only-when-Secure-Simple-Pa.patch
-
 # CVE-2019-12378 rhbz 1715459 1715460
 Patch528: ipv6_sockglue-fix-missing-check-bug-in-ip6_ra_control.patch
 
@@ -616,11 +612,18 @@ Patch535: wcd9335-fix-a-incorrect-use-of-kstrndup.patch
 # CVE-2019-12456 rhbz 1717182 1717183
 Patch536: scsi-mpt3sas_ctl-fix-double-fetch-bug-in_ctl_ioctl_main.patch
 
-# rhbz 1708717
-Patch537: neighbor-Reset-gc_entries-counter-if-new-entry-is-re.patch
-
 # CVE-2019-12614 rhbz 1718176 1718185
 Patch538: powerpc-fix-a-missing-check-in-dlpar_parse_cc_property.patch
+
+# CVE-2019-10126 rhbz 1716992 1720122
+Patch541: mwifiex-Fix-heap-overflow-in-mwifiex_uap_parse_tail_ies.patch
+
+# 1697069 LCD panel an Asus EeePC 1025C not lighting up, submitted upstream
+Patch542: 0001-platform-x86-asus-wmi-Only-Tell-EC-the-OS-will-handl.patch
+
+# Fix the LCD panel on the GPD MicroPC not working, pending as fixes for 5.2
+Patch544: drm-panel-orientation-quirks.patch
+Patch545: efi-bgrt-acpi6.2-support.patch
 
 Patch900: 0002-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
@@ -1861,8 +1864,41 @@ fi
 #
 #
 %changelog
-* Thu Jun 13 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.1.8-301
+* Mon Jul 01 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.1.15-301
 - Add UKSM
+
+* Tue Jun 25 2019 Jeremy Cline <jcline@redhat.com> - 5.1.15-300
+- Linux v5.1.15
+- Fixes CVE-2019-12817 (rhbz 1720616 1723697)
+
+* Mon Jun 24 2019 Hans de Goede <hdegoede@redhat.com>
+- Extend GPD MicroPC LCD panel quirk to also apply to newer BIOS versions
+
+* Mon Jun 24 2019 Jeremy Cline <jcline@redhat.com> - 5.1.14-300
+- Linux v5.1.14
+
+* Wed Jun 19 2019 Jeremy Cline <jcline@redhat.com> - 5.1.12-300
+- Linux v5.1.12
+
+* Mon Jun 17 2019 Jeremy Cline <jcline@redhat.com> - 5.1.11-300
+- Linux v5.1.11
+- Fixes CVE-2019-11477	(rhbz 1719123 1721254)
+- Fixes CVE-2019-11479	(rhbz 1719129 1721255)
+- Fixes CVE-2019-11478	(rhbz 1719128 1721256)
+
+* Mon Jun 17 2019 Jeremy Cline <jcline@redhat.com> - 5.1.10-300
+- Linux v5.1.10
+
+* Fri Jun 14 2019 Hans de Goede <hdegoede@redhat.com>
+- Fix the LCD panel an Asus EeePC 1025C not lighting up (rhbz#1697069)
+- Fix the LCD panel on the GPD MicroPC not working
+
+* Thu Jun 13 2019 Justin M. Forbes <jforbes@fedoraproject.org>
+- Fix CVE-2019-10126 (rhbz 1716992 1720122)
+
+* Tue Jun 11 2019 Jeremy Cline <jcline@redhat.com> - 5.1.9-300
+- Linux v5.1.9
+- Fix UDP checkshums for SIP packets (rhbz 1716289)
 
 * Sun Jun 09 2019 Jeremy Cline <jcline@redhat.com> - 5.1.8-300
 - Linux v5.1.8
