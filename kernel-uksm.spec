@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 15
+%define stable_update 16
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -552,8 +552,6 @@ Patch305: qcom-msm89xx-fixes.patch
 # https://patchwork.kernel.org/project/linux-mmc/list/?submitter=71861
 Patch306: arm-sdhci-esdhc-imx-fixes.patch
 
-Patch307: arm64-rock960-enable-tsadc.patch
-
 Patch330: bcm2835-cpufreq-add-CPU-frequency-control-driver.patch
 
 Patch331: watchdog-bcm2835_wdt-Fix-module-autoload.patch
@@ -624,6 +622,9 @@ Patch542: 0001-platform-x86-asus-wmi-Only-Tell-EC-the-OS-will-handl.patch
 # Fix the LCD panel on the GPD MicroPC not working, pending as fixes for 5.2
 Patch544: drm-panel-orientation-quirks.patch
 Patch545: efi-bgrt-acpi6.2-support.patch
+
+# Accepted upstream; rhbz 1724357
+Patch546: netfilter-ctnetlink-Fix-regression-in-conntrack-entry.patch
 
 Patch900: 0002-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
@@ -1864,8 +1865,12 @@ fi
 #
 #
 %changelog
-* Mon Jul 01 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.1.15-301
+* Mon Jul 08 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.1.16-301
 - Add UKSM
+
+* Wed Jul 03 2019 Jeremy Cline <jcline@redhat.com> - 5.1.16-300
+- Linux v5.1.16
+- Fix an issue with deleting singular conntrack entries (rhbz 1724357)
 
 * Tue Jun 25 2019 Jeremy Cline <jcline@redhat.com> - 5.1.15-300
 - Linux v5.1.15
