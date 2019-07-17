@@ -54,7 +54,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 16
+%define stable_update 17
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -552,9 +552,17 @@ Patch305: qcom-msm89xx-fixes.patch
 # https://patchwork.kernel.org/project/linux-mmc/list/?submitter=71861
 Patch306: arm-sdhci-esdhc-imx-fixes.patch
 
+# Raspberry Pi bits
 Patch330: bcm2835-cpufreq-add-CPU-frequency-control-driver.patch
 
 Patch331: watchdog-bcm2835_wdt-Fix-module-autoload.patch
+
+# Fix spurious "load avg 4" issue
+Patch333: bcm2835-vchiq-use-interruptible-waits.patch
+
+# The new power driver has regressed display so disable it until the problem is diagnosed
+Patch334: 0001-Revert-ARM-bcm283x-Switch-V3D-over-to-using-the-PM-d.patch
+Patch335: 0002-Revert-ARM-bcm283x-Extend-the-WDT-DT-node-out-to-cov.patch
 
 # Tegra bits
 Patch340: arm64-tegra-jetson-tx1-fixes.patch
@@ -616,15 +624,16 @@ Patch538: powerpc-fix-a-missing-check-in-dlpar_parse_cc_property.patch
 # CVE-2019-10126 rhbz 1716992 1720122
 Patch541: mwifiex-Fix-heap-overflow-in-mwifiex_uap_parse_tail_ies.patch
 
-# 1697069 LCD panel an Asus EeePC 1025C not lighting up, submitted upstream
-Patch542: 0001-platform-x86-asus-wmi-Only-Tell-EC-the-OS-will-handl.patch
-
 # Fix the LCD panel on the GPD MicroPC not working, pending as fixes for 5.2
 Patch544: drm-panel-orientation-quirks.patch
 Patch545: efi-bgrt-acpi6.2-support.patch
 
 # Accepted upstream; rhbz 1724357
 Patch546: netfilter-ctnetlink-Fix-regression-in-conntrack-entry.patch
+
+# rhbz 1716334
+# https://patchwork.kernel.org/patch/11029027/
+Patch547: iwlwifi-mvm-disable-TX-AMSDU-on-older-NICs.patch
 
 Patch900: 0002-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
@@ -1865,8 +1874,17 @@ fi
 #
 #
 %changelog
-* Mon Jul 08 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.1.16-301
+* Wed Jul 17 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.1.17-301
 - Add UKSM
+
+* Wed Jul 10 2019 Jeremy Cline <jcline@redhat.com> - 5.1.17-300
+- Linux v5.1.17
+
+* Mon Jul 08 2019 Jeremy Cline <jcline@redhat.com>
+- Fix a firmware crash in Intel 7000 and 8000 devices (rhbz 1716334)
+
+* Thu Jul  4 2019 Peter Robinson <pbrobinson@fedoraproject.org>
+- Fixes for load avg and display on Raspberry Pi
 
 * Wed Jul 03 2019 Jeremy Cline <jcline@redhat.com> - 5.1.16-300
 - Linux v5.1.16
