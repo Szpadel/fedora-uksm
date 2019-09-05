@@ -599,6 +599,7 @@ Patch515: fix-a-double-free-bug-in-rsi_91x_deinit.patch
 Patch516: technisat-usb2-break-out-of-loop-at-end-of-buffer.patch
 
 Patch900: 0002-Add-UKSM.patch
+Patch901: 0003-disable-ovl-check.patch
 # END OF PATCH DEFINITIONS
 
 %endif
@@ -1836,7 +1837,7 @@ fi
 #
 #
 %changelog
-* Wed Sep 04 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.2.11-201
+* Thu Sep 05 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.2.11-201
 - Add UKSM
 
 * Thu Aug 29 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 5.2.11-200
