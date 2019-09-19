@@ -56,7 +56,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 14
+%define stable_update 15
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -1835,8 +1835,12 @@ fi
 #
 #
 %changelog
-* Mon Sep 16 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.2.14-201
+* Thu Sep 19 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.2.15-201
 - Add UKSM
+
+* Mon Sep 16 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 5.2.15-200
+- Linux v5.2.15
+- Fixes rhbz 1751901
 
 * Tue Sep 10 2019 Justin M. Forbes <jforbes@redhat.com> - 5.2.14-200
 - Linux v5.2.14
