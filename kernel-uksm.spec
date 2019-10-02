@@ -587,7 +587,6 @@ Patch511: 0001-dma-direct-correct-the-physical-addr-in-dma_direct_s.patch
 Patch518: dwc3-fix.patch
 
 Patch900: 0002-Add-UKSM.patch
-Patch901: 0003-disable-ovl-check.patch
 # END OF PATCH DEFINITIONS
 
 %endif
@@ -1825,7 +1824,7 @@ fi
 #
 #
 %changelog
-* Tue Oct 01 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.2.17-201
+* Wed Oct 02 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.2.17-201
 - Add UKSM
 
 * Mon Sep 23 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 5.2.17-200
