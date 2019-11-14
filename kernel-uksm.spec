@@ -56,7 +56,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 9
+%define stable_update 11
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -551,11 +551,6 @@ Patch304: usb-phy-tegra-Add-38.4MHz-clock-table-entry.patch
 # http://patchwork.ozlabs.org/patch/587554/
 Patch305: ARM-tegra-usb-no-reset.patch
 
-# https://patchwork.kernel.org/patch/11173461/
-Patch307: arm64-dts-rockchip-fix-RockPro64-vdd-log-regulator-settings.patch
-# https://patchwork.kernel.org/patch/11155461/
-Patch308: arm64-dts-rockchip-fix-Rockpro64-RK808-interrupt-line.patch
-
 # Tegra bits
 Patch320: arm64-tegra-jetson-tx1-fixes.patch
 # https://www.spinics.net/lists/linux-tegra/msg43110.html
@@ -574,9 +569,6 @@ Patch332: arm64-dts-qcom-Add-Lenovo-Yoga-C630.patch
 # This is typical rpi, we have a driver but it has problems because ¯\_(ツ)_/¯ but this revert makes pictures work again.
 # https://patchwork.kernel.org/patch/11136979/
 Patch341: Revert-ARM-bcm283x-Switch-V3D-over-to-using-the-PM-driver-instead-of-firmware.patch
-
-# https://www.spinics.net/lists/arm-kernel/msg761152.html
-Patch342: efi-libstub-arm-account-for-firmware-reserved-memory-at-the-base-of-RAM.patch
 
 # 400 - IBM (ppc/s390x) patches
 
@@ -1803,8 +1795,21 @@ fi
 #
 #
 %changelog
-* Tue Nov 12 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.3.9-301
+* Thu Nov 14 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.3.11-301
 - Add UKSM
+
+* Tue Nov 12 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 5.3.11-300
+- Linux v5.3.11
+- Fixes CVE-2019-11135	(rhbz 1753062 1771649)
+- Fixes CVE-2018-12207	(rhbz 1646768 1771645)
+- Fixes CVE-2019-0154	(rhbz 1724393 1771642)
+- Fixes CVE-2019-0155	(rhbz 1724398 1771644)
+
+* Mon Nov 11 2019 Laura Abbott <labbott@redhat.com> - 5.3.10-300
+- Linux v5.3.10
+
+* Thu Nov 07 2019 Jeremy Cline <jcline@redhat.com>
+- Add support for a number of Macbook keyboards and touchpads (rhbz 1769465)
 
 * Wed Nov 06 2019 Laura Abbott <labbott@redhat.com> - 5.3.9-300
 - Linux v5.3.9
