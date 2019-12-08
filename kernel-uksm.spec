@@ -56,7 +56,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 13
+%define stable_update 15
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -666,6 +666,24 @@ Patch528: mwifiex-Fix-heap-overflow-in-mmwifiex_process_tdls_action_frame.patch
 
 # CVE-2019-19078 rhbz 1776354 1776353
 Patch529: ath10k-fix-memory-leak.patch
+
+# CVE-2019-19082 rhbz 1776832 1776833
+Patch530: 0001-drm-amd-display-prevent-memory-leak.patch
+
+# CVE-2019-18808 rhbz 1777418 1777421
+Patch531: 0001-crypto-ccp-Release-all-allocated-memory-if-sha-type-.patch
+
+# CVE-2019-18809 rhbz 1777449 1777451
+Patch532: 0001-media-usb-fix-memory-leak-in-af9005_identify_state.patch
+
+# CVE-2019-18812 rhbz 1777458 1777459
+Patch534: 0001-ASoC-SOF-Fix-memory-leak-in-sof_dfsentry_write.patch
+
+# CVE-2019-16232 rhbz 1760351 1760352
+Patch535: 0001-libertas-fix-a-potential-NULL-pointer-dereference.patch
+
+# rhbz 1769600
+Patch536: powerpc-xive-skip-ioremap-of-ESB-pages-for-LSI-interrupts.patch
 
 Patch900: 0001-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
@@ -1869,8 +1887,27 @@ fi
 #
 #
 %changelog
-* Wed Nov 27 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.3.13-301
+* Sun Dec 08 2019 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.3.15-301
 - Add UKSM
+
+* Thu Dec 05 2019 Laura Abbott <labbott@redhat.com> - 5.3.15-300
+- Linux v5.3.15
+
+* Wed Dec 04 2019 Laura Abbott <labbott@redhat.com>
+- Add powerpc virt fix (rhbz 1769600)
+
+* Mon Dec 02 2019 Laura Abbott <labbott@redhat.com> - 5.3.14-300
+- Linux v5.3.14
+
+* Mon Dec 02 2019 Justin M. Forbes <jforbes@fedoraproject.org>
+- Fix CVE-2019-18808 (rhbz 1777418 1777421)
+- Fix CVE-2019-18809 (rhbz 1777449 1777451)
+- Fix CVE-2019-18811 (rhbz 1777455 1777456)
+- Fix CVE-2019-18812 (rhbz 1777458 1777459)
+- Fix CVE-2019-16232 (rhbz 1760351 1760352)
+
+* Tue Nov 26 2019 Justin M. Forbes <jforbes@fedoraproject.org> 
+- Fix CVE-2019-19082 (rhbz 1776832 1776833)
 
 * Mon Nov 25 2019 Justin M. Forbes <jforbes@fedoraproject.org> - 5.3.13-300
 - Fix CVE-2019-14895 (rhbz 1774870 1776139)
