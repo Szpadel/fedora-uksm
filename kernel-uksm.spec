@@ -2556,7 +2556,7 @@ fi
 #
 #
 %changelog
-* Tue Jan 07 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.4.8-201
+* Wed Jan 08 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.4.8-201
 - Add UKSM
 
 * Mon Jan 06 2020 Jeremy Cline <jcline@redhat.com> - 5.4.8-200

@@ -1,4 +1,4 @@
-From dfd6bf3327e8b28a7b8bd981e7b2fb2824c1d27d Mon Sep 17 00:00:00 2001
+From 4139eb13cb76d86ccf395a01267010d2d201c777 Mon Sep 17 00:00:00 2001
 From: Piotr Rogowski <piotr.rogowski@creativestyle.pl>
 Date: Tue, 7 Jan 2020 13:13:11 +0100
 Subject: [PATCH] Add UKSM
@@ -280,13 +280,13 @@ index bda20282746b..dab82e7cc3df 100644
  enum node_stat_item {
 diff --git a/include/linux/sradix-tree.h b/include/linux/sradix-tree.h
 new file mode 100644
-index 000000000000..d71edba6b63f
+index 000000000000..1af2ab6a0641
 --- /dev/null
 +++ b/include/linux/sradix-tree.h
 @@ -0,0 +1,77 @@
 +#ifndef _LINUX_SRADIX_TREE_H
 +#define _LINUX_SRADIX_TREE_H
-+
++#include <stddef.h>
 +
 +#define INIT_SRADIX_TREE(root, mask)					\
 +do {									\
@@ -6985,5 +6985,5 @@ index a8222041bd44..7058e8322cbd 100644
  	"nr_dirty_threshold",
  	"nr_dirty_background_threshold",
 -- 
-2.23.0
+2.24.1
 
