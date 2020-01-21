@@ -89,7 +89,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 10
+%define stable_update 12
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -784,6 +784,8 @@ Patch325: arm64-usb-host-xhci-tegra-set-MODULE_FIRMWARE-for-tegra186.patch
 # 400 - IBM (ppc/s390x) patches
 
 # 500 - Temp fixes/CVEs etc
+Patch500: PATCH-v2-selinux-allow-labeling-before-policy-is-loaded.patch
+
 # rhbz 1431375
 Patch501: input-rmi4-remove-the-need-for-artifical-IRQ.patch
 
@@ -794,58 +796,32 @@ Patch502: 0001-Drop-that-for-now.patch
 # Submitted upstream at https://lkml.org/lkml/2019/4/23/89
 Patch503: KEYS-Make-use-of-platform-keyring-for-module-signature.patch
 
-Patch500: PATCH-v2-selinux-allow-labeling-before-policy-is-loaded.patch
-
 # it seems CONFIG_OPTIMIZE_INLINING has been forced now and is causing issues on ARMv7
 # https://lore.kernel.org/patchwork/patch/1132459/
 # https://lkml.org/lkml/2019/8/29/1772
-Patch505: ARM-fix-__get_user_check-in-case-uaccess_-calls-are-not-inlined.patch
-
-# CVE-2019-19068 rhbz 1774963 1774965
-Patch511: rtl8xxxu-prevent-leaking-urb.patch
+Patch504: ARM-fix-__get_user_check-in-case-uaccess_-calls-are-not-inlined.patch
 
 # CVE-2019-19043 rhbz 1774972 1774973
 Patch512: net-next-v2-9-9-i40e-prevent-memory-leak-in-i40e_setup_macvlans.patch
-
-# CVE-2019-19066 rhbz 1774976 1774978
-Patch513: scsi-bfa-release-allocated-memory-in-case-of-error.patch
 
 # CVE-2019-19046 rhbz 1774988 1774989
 Patch514: ipmi-Fix-memory-leak-in-__ipmi_bmc_register.patch
 
 # CVE-2019-19064 rhbz 1775010 1775011
-Patch516: spi-lpspi-fix-memory-leak-in-fsl_lpspi_probe.patch
-
-# CVE-2019-19053 rhbz 1775956 1775110
-Patch521: rpmsg-char-release-allocated-memory.patch
-
-# CVE-2019-19056 rhbz 1775097 1775115
-Patch522: mwifiex-pcie-fix-memory-leak-in-mwifiex_pcie_alloc_cmdrsp_buf.patch
+Patch515: spi-lpspi-fix-memory-leak-in-fsl_lpspi_probe.patch
 
 # CVE-2019-19054 rhbz 1775063 1775117
-Patch524: media-rc-prevent-memory-leak-in-cx23888_ir_probe.patch
-
-# CVE-2019-14895 rhbz 1774870 1776139
-Patch526: mwifiex-fix-possible-heap-overflow-in-mwifiex_process_country_ie.patch
+Patch523: media-rc-prevent-memory-leak-in-cx23888_ir_probe.patch
 
 # CVE-2019-14896 rhbz 1774875 1776143
 # CVE-2019-14897 rhbz 1774879 1776146
-Patch527: libertas-Fix-two-buffer-overflows-at-parsing-bss-descriptor.patch
-
-# CVE-2019-14901 rhbz 1773519 1776184
-Patch528: mwifiex-Fix-heap-overflow-in-mmwifiex_process_tdls_action_frame.patch
-
-# CVE-2019-19078 rhbz 1776354 1776353
-Patch529: ath10k-fix-memory-leak.patch
+Patch525: libertas-Fix-two-buffer-overflows-at-parsing-bss-descriptor.patch
 
 # CVE-2019-18808 rhbz 1777418 1777421
-Patch531: 0001-crypto-ccp-Release-all-allocated-memory-if-sha-type-.patch
+Patch527: 0001-crypto-ccp-Release-all-allocated-memory-if-sha-type-.patch
 
-# rhbz 1781288
-Patch610: 0001-tracing-Do-not-create-directories-if-lockdown-is-in-.patch
-
-# rhbz 1788653
-Patch611: tpm-handle-negative-priv--response_len-in-tpm_common_read.patch
+# https://gitlab.freedesktop.org/drm/intel/issues/673
+Patch531: drm-i915-gt-Detect-if-we-miss-WaIdleLiteRestore.patch
 
 Patch900: 0001-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
@@ -1805,7 +1781,6 @@ BuildKernel() {
 %endif
 
     # then drop all but the needed Makefiles/Kconfig files
-    rm -rf $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/Documentation
     rm -rf $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/scripts
     rm -rf $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/include
     cp .config $RPM_BUILD_ROOT/lib/modules/$KernelVer/build
@@ -2546,8 +2521,17 @@ fi
 #
 #
 %changelog
-* Mon Jan 13 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.4.10-201
+* Tue Jan 21 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.4.12-201
 - Add UKSM
+
+* Tue Jan 14 2020 Jeremy Cline <jcline@redhat.com> - 5.4.12-200
+- Linux v5.4.12
+
+* Mon Jan 13 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.4.10-202
+- Add Documentation back to kernel-devel as it has Kconfig now (rhbz 1789641)
+
+* Mon Jan 13 2020 Peter Robinson <pbrobinson@gmail.com> - 5.4.11-200
+- Linux v5.4.11
 
 * Thu Jan 09 2020 Jeremy Cline <jcline@redhat.com> - 5.4.10-200
 - Linux v5.4.10
