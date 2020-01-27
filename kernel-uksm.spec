@@ -89,7 +89,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 12
+%define stable_update 14
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -801,14 +801,8 @@ Patch503: KEYS-Make-use-of-platform-keyring-for-module-signature.patch
 # https://lkml.org/lkml/2019/8/29/1772
 Patch504: ARM-fix-__get_user_check-in-case-uaccess_-calls-are-not-inlined.patch
 
-# CVE-2019-19043 rhbz 1774972 1774973
-Patch512: net-next-v2-9-9-i40e-prevent-memory-leak-in-i40e_setup_macvlans.patch
-
 # CVE-2019-19046 rhbz 1774988 1774989
 Patch514: ipmi-Fix-memory-leak-in-__ipmi_bmc_register.patch
-
-# CVE-2019-19064 rhbz 1775010 1775011
-Patch515: spi-lpspi-fix-memory-leak-in-fsl_lpspi_probe.patch
 
 # CVE-2019-19054 rhbz 1775063 1775117
 Patch523: media-rc-prevent-memory-leak-in-cx23888_ir_probe.patch
@@ -822,6 +816,15 @@ Patch527: 0001-crypto-ccp-Release-all-allocated-memory-if-sha-type-.patch
 
 # https://gitlab.freedesktop.org/drm/intel/issues/673
 Patch531: drm-i915-gt-Detect-if-we-miss-WaIdleLiteRestore.patch
+
+# ALSA code from v5.5 (Intel ASoC Sound Open Firmware driver support)
+Patch600: alsa-5.5.patch
+
+# ALSA code from v5.6 (Intel ASoC Sound Open Firmware driver support)
+Patch601: alsa-5.6.patch
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=1772498#c101
+Patch602: ASoC-topology-fix-soc_tplg_fe_link_create-link-dobj-.patch
 
 Patch900: 0001-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
@@ -2521,8 +2524,17 @@ fi
 #
 #
 %changelog
-* Tue Jan 21 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.4.12-201
+* Mon Jan 27 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.4.14-201
 - Add UKSM
+
+* Thu Jan 23 2020 Jeremy Cline <jcline@redhat.com> - 5.4.14-200
+- Linux v5.4.14
+
+* Tue Jan 21 2020 Jeremy Cline <jcline@redhat.com> - 5.4.13-201
+- Re-add the Intel ASoC Sound Open Firmware driver support
+
+* Mon Jan 20 2020 Jeremy Cline <jcline@redhat.com> - 5.4.13-200
+- Linux v5.4.13
 
 * Tue Jan 14 2020 Jeremy Cline <jcline@redhat.com> - 5.4.12-200
 - Linux v5.4.12
