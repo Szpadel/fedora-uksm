@@ -89,7 +89,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 5
+%define stable_update 7
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -857,7 +857,16 @@ Patch504: 0001-mm-kmemleak-skip-late_init-if-not-skip-disable.patch
 Patch505: ARM-fix-__get_user_check-in-case-uaccess_-calls-are-not-inlined.patch
 
 # ALSA code from v5.6 (Intel ASoC Sound Open Firmware driver support)
-Patch527: alsa-5.6.patch
+Patch506: alsa-5.6.patch
+
+# i915 "critical" patch from upstream
+Patch508: 0001-drm-i915-Serialise-i915_active_acquire-with-__active.patch
+
+# Backport vboxsf from 5.6, can be dropped when we move to 5.6
+Patch510: 0001-fs-Add-VirtualBox-guest-shared-folder-vboxsf-support.patch
+
+# rhbz 1800335
+Patch511: v2_20200128_dmoulding_me_com.patch
 
 Patch900: 0001-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
@@ -2889,8 +2898,31 @@ fi
 #
 #
 %changelog
-* Mon Feb 24 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.5.5-201
+* Mon Mar 02 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.5.7-201
 - Add UKSM
+
+* Fri Feb 28 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.5.7-200
+- Linux v5.5.7
+- Fixes CVE-2020-2732 (rhbz 1805135 1806816)
+
+* Thu Feb 27 2020 Hans de Goede <hdegoede@redhat.com>
+- Fix 5.5.6 sof_hda regression (rhbz 1772498)
+
+* Mon Feb 24 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.5.6-201
+- Fix for some iwlwifi users (rhbz 1800335)
+
+* Mon Feb 24 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.5.6-200
+- Linux v5.5.6
+
+* Fri Feb 21 2020 Hans de Goede <hdegoede@redhat.com>
+- Backport Virtual Box Guest shared folder support from 5.6
+
+* Fri Feb 21 2020 Jaroslav Kysela <perex@perex.cz>
+- Update alsa-5.6.patch for better SOF support (rhbz 1772498)
+
+* Thu Feb 20 2020 Justin M. Forbes <jforbes@fedoraproject.org>
+- Fix aarch64 heap corruption issue (rhbz 1797052)
+- Add i915 fix from upstream
 
 * Wed Feb 19 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.5.5-200
 - Linux v5.5.5
