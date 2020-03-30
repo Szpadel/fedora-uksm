@@ -89,7 +89,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 10
+%define stable_update 13
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -863,9 +863,6 @@ Patch508: 20200310_chris_chris_wilson_co_uk.patch
 
 # Backport vboxsf from 5.6, can be dropped when we move to 5.6
 Patch510: 0001-fs-Add-VirtualBox-guest-shared-folder-vboxsf-support.patch
-
-# Fix UCSI oopses, (rhbz 1785972) (in gkh's usb-linus, heading towards mainline)
-Patch514: ucsi-oops-fixes.patch
 
 Patch900: 0001-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
@@ -2897,8 +2894,23 @@ fi
 #
 #
 %changelog
-* Tue Mar 24 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.5.10-201
+* Mon Mar 30 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.5.13-201
 - Add UKSM
+
+* Wed Mar 25 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.5.13-200
+- Linux v5.5.13
+
+* Wed Mar 25 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.5.12-200
+- Linux v5.5.12
+
+* Mon Mar 23 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.5.11-200
+- Linux v5.5.11
+
+* Fri Mar 20 2020 Jeremy Cline <jcline@redhat.com>
+- Switch Secure Boot to lock down to integrity mode (rhbz 1815571)
+
+* Fri Mar 20 2020 Justin M. Forbes <jforbes@fedoraproject.org>
+- Fix CVE-2019-19769 (rhbz 1786174 1786175)
 
 * Wed Mar 18 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.5.10-200
 - Linux v5.5.10
