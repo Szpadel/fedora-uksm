@@ -92,7 +92,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 15
+%define stable_update 16
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -920,6 +920,9 @@ Patch519: vboxguest-fixes.patch
 
 # rhbz 1830150
 Patch520: 0001-platform-x86-sony-laptop-SNC-calls-should-handle-BUF.patch
+
+# CVE-2020-10757 rhbz 1842525 1843883
+Patch521: mm-fix-mremap-not-considering-huge-pmd-devmap.patch
 
 Patch900: 0001-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
@@ -3018,8 +3021,14 @@ fi
 #
 #
 %changelog
-* Tue Jun 02 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.6.15-301
+* Tue Jun 09 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.6.16-301
 - Add UKSM
+
+* Thu Jun 04 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.6.16-300
+- Fix CVE-2020-10757 (rhbz 1842525 184388)
+
+* Wed Jun 03 2020 Justin M. Forbes <jforbes@fedoraproject.org>
+- Linux v5.6.16
 
 * Thu May 28 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.6.15-300
 - Linux v5.6.15
