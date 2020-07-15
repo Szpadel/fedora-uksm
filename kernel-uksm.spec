@@ -92,7 +92,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 7
+%define stable_update 8
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -794,7 +794,6 @@ Source5000: patch-5.%{base_sublevel}-git%{gitrev}.xz
 Patch6: 0001-ACPI-APEI-arm64-Ignore-broken-HPE-moonshot-APEI-supp.patch
 Patch8: 0001-ACPI-irq-Workaround-firmware-issue-on-X-Gene-based-m.patch
 Patch9: 0001-aarch64-acpi-scan-Fix-regression-related-to-X-Gene-U.patch
-Patch10: 0001-acpi-prefer-booting-with-ACPI-over-DTS.patch
 Patch11: 0001-kdump-round-up-the-total-memory-size-to-128M-for-cra.patch
 Patch12: 0001-kdump-add-support-for-crashkernel-auto.patch
 Patch15: 0001-kdump-fix-a-grammar-issue-in-a-kernel-message.patch
@@ -2969,8 +2968,12 @@ fi
 #
 #
 %changelog
-* Thu Jul 02 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.7.7-201
+* Wed Jul 15 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.7.8-201
 - Add UKSM
+
+* Thu Jul 09 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.7.8-200
+- Linux v5.7.8
+- Fixes (rhbz 1852944 1852942 1852963 1852962)
 
 * Wed Jul 01 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.7.7-200
 - Linux v5.7.7
