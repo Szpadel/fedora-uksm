@@ -92,7 +92,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 8
+%define stable_update 9
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -637,41 +637,51 @@ Source10: x509.genkey.rhel
 Source11: x509.genkey.fedora
 %if %{?released_kernel}
 
-Source12: securebootca.cer
-Source13: secureboot.cer
-Source14: secureboot_s390.cer
-Source15: secureboot_ppc.cer
+Source12: redhatsecurebootca5.cer
+Source13: redhatsecurebootca1.cer
+Source14: redhatsecureboot501.cer
+Source15: redhatsecureboot301.cer
+Source16: secureboot_s390.cer
+Source17: secureboot_ppc.cer
 
-%define secureboot_ca %{SOURCE12}
+%define secureboot_ca_1 %{SOURCE12}
+%define secureboot_ca_0 %{SOURCE13}
 %ifarch x86_64 aarch64
-%define secureboot_key %{SOURCE13}
-%define pesign_name redhatsecureboot301
+%define secureboot_key_1 %{SOURCE14}
+%define pesign_name_1 redhatsecureboot501
+%define secureboot_key_0 %{SOURCE15}
+%define pesign_name_0 redhatsecureboot301
 %endif
 %ifarch s390x
-%define secureboot_key %{SOURCE14}
-%define pesign_name redhatsecureboot302
+%define secureboot_key_0 %{SOURCE16}
+%define pesign_name_0 redhatsecureboot302
 %endif
 %ifarch ppc64le
-%define secureboot_key %{SOURCE15}
-%define pesign_name redhatsecureboot303
+%define secureboot_key_0 %{SOURCE17}
+%define pesign_name_0 redhatsecureboot303
 %endif
 
 # released_kernel
 %else
 
-Source12: redhatsecurebootca2.cer
-Source13: redhatsecureboot003.cer
+Source12: redhatsecurebootca4.cer
+Source13: redhatsecurebootca2.cer
+Source14: redhatsecureboot401.cer
+Source15: redhatsecureboot003.cer
 
-%define secureboot_ca %{SOURCE12}
-%define secureboot_key %{SOURCE13}
-%define pesign_name redhatsecureboot003
+%define secureboot_ca_1 %{SOURCE12}
+%define secureboot_ca_0 %{SOURCE13}
+%define secureboot_key_1 %{SOURCE14}
+%define pesign_name_1 redhatsecureboot401
+%define secureboot_key_0 %{SOURCE15}
+%define pesign_name_0 redhatsecureboot003
 
 # released_kernel
 %endif
 
 Source22: mod-extra.list.rhel
-Source16: mod-extra.list.fedora
-Source17: mod-extra.sh
+Source23: mod-extra.list.fedora
+Source24: mod-extra.sh
 Source18: mod-sign.sh
 Source19: mod-extra-blacklist.sh
 Source79: parallel_xz.sh
@@ -853,6 +863,9 @@ Patch105: 0001-virt-vbox-Log-unknown-ioctl-requests-as-error.patch
 # Thinkpad dual fan control
 Patch107: 0001-platform-x86-thinkpad_acpi-Add-support-for-dual-fan-.patch
 
+# https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/selinux.git/commit/?h=next&id=c8e222616c7e98305bdc861db3ccac520bc29921
+Patch108: selinux_allow_reading_labels_before_policy_is_loaded.patch
+
 # Latest upstream screen driver - https://patchwork.kernel.org/patch/11627069/
 Patch110: 0001-dt-bindings-vendor-prefixes-Add-Xingbangda.patch
 Patch111: 0002-dt-bindings-panel-Convert-rocktech-jh057n00900-to-ya.patch
@@ -871,6 +884,10 @@ Patch122: 0013-arm64-dts-sun50i-a64-pinephone-Add-touchscreen-suppo.patch
 Patch123: 0001-usb-fusb302-Convert-to-use-GPIO-descriptors.patch
 # Tegra194 ACPI PCI quirk - http://patchwork.ozlabs.org/patch/1221384/
 Patch124: 0001-PCI-Add-MCFG-quirks-for-Tegra194-host-controllers.patch
+
+# Killer wireless headed to stable
+Patch125: iwlwifi-make-some-killer-wireless-ac-1550-cards-work-again.patch
+
 Patch900: 0001-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
 
@@ -1786,11 +1803,13 @@ BuildKernel() {
     fi
 
     %ifarch x86_64 aarch64
-    %pesign -s -i $SignImage -o vmlinuz.signed -a %{secureboot_ca} -c %{secureboot_key} -n %{pesign_name}
+    %pesign -s -i $SignImage -o vmlinuz.tmp -a %{secureboot_ca_0} -c %{secureboot_key_0} -n %{pesign_name_0}
+    %pesign -s -i vmlinuz.tmp -o vmlinuz.signed -a %{secureboot_ca_1} -c %{secureboot_key_1} -n %{pesign_name_1}
+    rm vmlinuz.tmp
     %endif
     %ifarch s390x ppc64le
     if [ -x /usr/bin/rpm-sign ]; then
-	rpm-sign --key "%{pesign_name}" --lkmsign $SignImage --output vmlinuz.signed
+	rpm-sign --key "%{pesign_name_0}" --lkmsign $SignImage --output vmlinuz.signed
     elif [ $DoModules -eq 1 ]; then
 	chmod +x scripts/sign-file
 	./scripts/sign-file -p sha256 certs/signing_key.pem certs/signing_key.x509 $SignImage vmlinuz.signed
@@ -2080,11 +2099,11 @@ BuildKernel() {
     popd
 
     # Call the modules-extra script to move things around
-    %{SOURCE17} $RPM_BUILD_ROOT/lib/modules/$KernelVer $RPM_SOURCE_DIR/mod-extra.list
+    %{SOURCE24} $RPM_BUILD_ROOT/lib/modules/$KernelVer $RPM_SOURCE_DIR/mod-extra.list
     # Blacklist net autoloadable modules in modules-extra
     %{SOURCE19} $RPM_BUILD_ROOT lib/modules/$KernelVer
     # Call the modules-extra script for internal modules
-    %{SOURCE17} $RPM_BUILD_ROOT/lib/modules/$KernelVer %{SOURCE54} internal
+    %{SOURCE24} $RPM_BUILD_ROOT/lib/modules/$KernelVer %{SOURCE54} internal
 
     #
     # Generate the kernel-core and kernel-modules files lists
@@ -2181,11 +2200,17 @@ BuildKernel() {
 
     # Red Hat UEFI Secure Boot CA cert, which can be used to authenticate the kernel
     mkdir -p $RPM_BUILD_ROOT%{_datadir}/doc/kernel-keys/$KernelVer
-    install -m 0644 %{secureboot_ca} $RPM_BUILD_ROOT%{_datadir}/doc/kernel-keys/$KernelVer/kernel-signing-ca.cer
+    %ifarch x86_64 aarch64
+       install -m 0644 %{secureboot_ca_0} $RPM_BUILD_ROOT%{_datadir}/doc/kernel-keys/$KernelVer/kernel-signing-ca-20200609.cer
+       install -m 0644 %{secureboot_ca_1} $RPM_BUILD_ROOT%{_datadir}/doc/kernel-keys/$KernelVer/kernel-signing-ca-20140212.cer
+       ln -s kernel-signing-ca-20200609.cer $RPM_BUILD_ROOT%{_datadir}/doc/kernel-keys/$KernelVer/kernel-signing-ca.cer
+    %else
+       install -m 0644 %{secureboot_ca_0} $RPM_BUILD_ROOT%{_datadir}/doc/kernel-keys/$KernelVer/kernel-signing-ca.cer
+    %endif
     %ifarch s390x ppc64le
     if [ $DoModules -eq 1 ]; then
 	if [ -x /usr/bin/rpm-sign ]; then
-	    install -m 0644 %{secureboot_key} $RPM_BUILD_ROOT%{_datadir}/doc/kernel-keys/$KernelVer/%{signing_key_filename}
+	    install -m 0644 %{secureboot_key_0} $RPM_BUILD_ROOT%{_datadir}/doc/kernel-keys/$KernelVer/%{signing_key_filename}
 	else
 	    install -m 0644 certs/signing_key.x509.sign${Flav} $RPM_BUILD_ROOT%{_datadir}/doc/kernel-keys/$KernelVer/kernel-signing-ca.cer
 	    openssl x509 -in certs/signing_key.pem.sign${Flav} -outform der -out $RPM_BUILD_ROOT%{_datadir}/doc/kernel-keys/$KernelVer/%{signing_key_filename}
@@ -2915,7 +2940,7 @@ fi
 %if 0%{!?fedora:1}\
 /lib/modules/%{KVERREL}%{?3:+%{3}}/weak-updates\
 %endif\
-%{_datadir}/doc/kernel-keys/%{KVERREL}%{?3:+%{3}}/kernel-signing-ca.cer\
+%{_datadir}/doc/kernel-keys/%{KVERREL}%{?3:+%{3}}/kernel-signing-ca*.cer\
 %ifarch s390x ppc64le\
 %if 0%{!?4:1}\
 %{_datadir}/doc/kernel-keys/%{KVERREL}%{?3:+%{3}}/%{signing_key_filename} \
@@ -2968,8 +2993,17 @@ fi
 #
 #
 %changelog
-* Wed Jul 15 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.7.8-201
+* Mon Jul 20 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.7.9-201
 - Add UKSM
+
+* Fri Jul 17 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.7.9-100
+- Linux v5.7.9
+
+* Wed Jul 15 2020 Justin M. Forbes <jforbes@fedoraproject.org>
+- Make some killer wireless ac 1550 cards work again
+
+* Sun Jul 12 2020 Peter Robinson <pbrobinson@fedoraproject.org>
+- selinux: allow reading labels before policy is loaded (rhbz 1845210)
 
 * Thu Jul 09 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.7.8-200
 - Linux v5.7.8
