@@ -92,7 +92,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 16
+%define stable_update 17
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -2991,8 +2991,11 @@ fi
 #
 #
 %changelog
-* Thu Aug 20 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.7.16-201
+* Mon Aug 24 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.7.17-201
 - Add UKSM
+
+* Fri Aug 21 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.7.17-200
+- Linux v5.7.17
 
 * Wed Aug 19 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.7.16-200
 - Linux v5.7.16
