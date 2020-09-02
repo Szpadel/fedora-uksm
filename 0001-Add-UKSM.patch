@@ -1,6 +1,6 @@
-From 4ae032e76bf8b19d2c82cb31331273a5528a33a4 Mon Sep 17 00:00:00 2001
+From 8faf2b945326a4bad497875f17c8dc5210b9ff37 Mon Sep 17 00:00:00 2001
 From: Piotr Rogowski <piotr.rogowski@creativestyle.pl>
-Date: Wed, 2 Sep 2020 12:39:39 +0200
+Date: Wed, 2 Sep 2020 17:11:00 +0200
 Subject: [PATCH] Add UKSM
 
 ---
@@ -225,10 +225,10 @@ index f6f884970511..8ff0d75c2036 100644
  
  enum node_stat_item {
 diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index 56c1e8eb7bb0..757d18225cb0 100644
+index 8075f6ae185a..31a1ff979a15 100644
 --- a/include/linux/pgtable.h
 +++ b/include/linux/pgtable.h
-@@ -1027,12 +1027,25 @@ extern void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
+@@ -1029,12 +1029,25 @@ extern void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
  extern void untrack_pfn_moved(struct vm_area_struct *vma);
  #endif
  
@@ -255,7 +255,7 @@ index 56c1e8eb7bb0..757d18225cb0 100644
  }
  
  #define my_zero_pfn(addr)	page_to_pfn(ZERO_PAGE(addr))
-@@ -1041,7 +1054,7 @@ static inline int is_zero_pfn(unsigned long pfn)
+@@ -1043,7 +1056,7 @@ static inline int is_zero_pfn(unsigned long pfn)
  static inline int is_zero_pfn(unsigned long pfn)
  {
  	extern unsigned long zero_pfn;
@@ -1084,7 +1084,7 @@ index 4102034cd55a..13ea01100de2 100644
  /*
   * Only called through the sysfs control interface:
 diff --git a/mm/memory.c b/mm/memory.c
-index 3ecad55103ad..fe4cb386639f 100644
+index a279c1a26af7..c3b83dd91120 100644
 --- a/mm/memory.c
 +++ b/mm/memory.c
 @@ -143,6 +143,25 @@ EXPORT_SYMBOL(zero_pfn);
@@ -1172,7 +1172,7 @@ index 3ecad55103ad..fe4cb386639f 100644
  		}
  		flush_cache_page(vma, vmf->address, pte_pfn(vmf->orig_pte));
 diff --git a/mm/mmap.c b/mm/mmap.c
-index 8c7ca737a19b..a924cb128844 100644
+index dcdab2675a21..b9ad9a4f468d 100644
 --- a/mm/mmap.c
 +++ b/mm/mmap.c
 @@ -46,6 +46,7 @@
@@ -1303,8 +1303,8 @@ index 8c7ca737a19b..a924cb128844 100644
  	if (mm->locked_vm) {
  		vma = mm->mmap;
  		while (vma) {
-@@ -3173,6 +3203,11 @@ void exit_mmap(struct mm_struct *mm)
- 		vma = remove_vma(vma);
+@@ -3174,6 +3204,11 @@ void exit_mmap(struct mm_struct *mm)
+ 		cond_resched();
  	}
  	vm_unacct_memory(nr_accounted);
 +
@@ -1315,7 +1315,7 @@ index 8c7ca737a19b..a924cb128844 100644
  }
  
  /* Insert vm structure into process list sorted by address
-@@ -3280,6 +3315,7 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
+@@ -3281,6 +3316,7 @@ struct vm_area_struct *copy_vma(struct vm_area_struct **vmap,
  			new_vma->vm_ops->open(new_vma);
  		vma_link(mm, new_vma, prev, rb_link, rb_parent);
  		*need_rmap_locks = false;
@@ -1323,7 +1323,7 @@ index 8c7ca737a19b..a924cb128844 100644
  	}
  	return new_vma;
  
-@@ -3432,6 +3468,7 @@ static struct vm_area_struct *__install_special_mapping(
+@@ -3433,6 +3469,7 @@ static struct vm_area_struct *__install_special_mapping(
  	vm_stat_account(mm, vma->vm_flags, len >> PAGE_SHIFT);
  
  	perf_event_mmap(vma);
@@ -6951,7 +6951,7 @@ index 000000000000..c762d1c1d8a7
 +#endif
 +
 diff --git a/mm/vmstat.c b/mm/vmstat.c
-index 3fb23a21f6dd..ac0c5fccf749 100644
+index 7fb01d225337..54a435549e62 100644
 --- a/mm/vmstat.c
 +++ b/mm/vmstat.c
 @@ -1173,6 +1173,9 @@ const char * const vmstat_text[] = {
