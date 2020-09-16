@@ -92,7 +92,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 8
+%define stable_update 9
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -868,6 +868,12 @@ Patch105: 0001-platform-x86-thinkpad_acpi-lap-or-desk-mode-interfac.patch
 Patch107: 0001-drivers-perf-xgene_pmu-Fix-uninitialized-resource-st.patch
 
 Patch110: memory-tegra-Remove-GPU-from-DRM-IOMMU-group.patch
+
+# CVE-2020-25211 rhbz 1877571 1877572
+Patch111: netfilter-ctnetlink-add-range-check-for-l3-l4-protonum.patch
+
+# rhbz 1878858
+Patch112: block-restore-a-specific-error-code-in-bdev_del_part.patch
 
 Patch900: 0001-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
@@ -2974,8 +2980,15 @@ fi
 #
 #
 %changelog
-* Mon Sep 14 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.8.8-201
+* Wed Sep 16 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.8.9-201
 - Add UKSM
+
+* Mon Sep 14 08:51:46 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.9-200
+- Linux v5.8.9
+- Fix error code in bdev_del_part (rhbz 1878858)
+
+* Thu Sep 10 2020 Justin M. Forbes <jforbes@fedoraproject.org>
+- Fix CVE-2020-25211 (rhbz 1877571 1877572)
 
 * Wed Sep  9 13:39:22 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.8-200
 - Linux v5.8.8
