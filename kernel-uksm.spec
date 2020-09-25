@@ -92,7 +92,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 10
+%define stable_update 11
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -1976,6 +1976,15 @@ BuildKernel() {
     cp -a scripts $RPM_BUILD_ROOT/lib/modules/$KernelVer/build
     rm -rf $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/scripts/tracing
     rm -f $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/scripts/spdxcheck.py
+
+    # Files for 'make scripts' to succeed with kernel-devel.
+    mkdir -p $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/security/selinux/include
+    cp -a --parents security/selinux/include/classmap.h $RPM_BUILD_ROOT/lib/modules/$KernelVer/build
+    cp -a --parents security/selinux/include/initial_sid_to_string.h $RPM_BUILD_ROOT/lib/modules/$KernelVer/build
+    mkdir -p $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/tools/include/tools
+    cp -a --parents tools/include/tools/be_byteshift.h $RPM_BUILD_ROOT/lib/modules/$KernelVer/build
+    cp -a --parents tools/include/tools/le_byteshift.h $RPM_BUILD_ROOT/lib/modules/$KernelVer/build
+
     if [ -f tools/objtool/objtool ]; then
       cp -a tools/objtool/objtool $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/tools/objtool/ || :
     fi
@@ -2983,8 +2992,12 @@ fi
 #
 #
 %changelog
-* Mon Sep 21 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.8.10-201
+* Fri Sep 25 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.8.11-201
 - Add UKSM
+
+* Wed Sep 23 06:59:07 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.11-200
+- Linux v5.8.11
+- Fix (rhbz 1821946)
 
 * Thu Sep 17 08:48:27 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.10-200
 - Linux v5.8.10
