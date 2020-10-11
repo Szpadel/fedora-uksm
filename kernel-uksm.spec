@@ -92,7 +92,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 13
+%define stable_update 14
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -869,9 +869,6 @@ Patch107: 0001-drivers-perf-xgene_pmu-Fix-uninitialized-resource-st.patch
 
 Patch110: memory-tegra-Remove-GPU-from-DRM-IOMMU-group.patch
 
-# rhbz 1873720
-Patch112: v2-nfs-Fix-security-label-length-not-being-reset.patch
-
 # rhbz 1875339 1875828 1876997
 Patch113: pdx86-SW_TABLET_MODE-fixes.patch
 
@@ -884,6 +881,8 @@ Patch117: arm64-pwm-rockchip-Keep-enabled-PWMs-running-while-probing.patch
 # Backport from 5.9
 Patch118: arm64-rockchip-pinebookpro-add-fuel-gauge.patch
 
+# https://patchwork.kernel.org/patch/11818995
+Patch121: arm64-BUG-crypto-arm64-Use-x16-with-indirect-branch-to-bti_c.patch
 Patch900: 0001-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
 
@@ -2998,8 +2997,15 @@ fi
 #
 #
 %changelog
-* Wed Oct 07 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.8.13-201
+* Sun Oct 11 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.8.14-201
 - Add UKSM
+
+* Wed Oct  7 07:21:23 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.14-200
+- Linux v5.8.14
+
+* Wed Oct  7 2020 Peter Robinson <pbrobinson@fedoraproject.org>
+- Fix aarch64 boot crash on BTI capable systems
+- Fix boot crash on aarch64 Ampere eMAG systems (rhbz #1874117)
 
 * Thu Oct  1 12:09:13 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.13-200
 - Linux v5.8.13
