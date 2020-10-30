@@ -92,7 +92,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 16
+%define stable_update 17
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -864,9 +864,6 @@ Patch103: arm64-tegra-Use-valid-PWM-period-for-VDD_GPU-on-Tegra210.patch
 # Goes away with 5.9
 Patch105: 0001-platform-x86-thinkpad_acpi-lap-or-desk-mode-interfac.patch
 
-# https://bugzilla.redhat.com/show_bug.cgi?id=1874117
-Patch107: 0001-drivers-perf-xgene_pmu-Fix-uninitialized-resource-st.patch
-
 # https://patchwork.kernel.org/patch/11745283/
 Patch108: brcmfmac-BCM4329-Fixes-and-improvement.patch
 
@@ -878,9 +875,6 @@ Patch112: memory-tegra-Remove-GPU-from-DRM-IOMMU-group.patch
 # https://patchwork.kernel.org/patch/11796255/
 Patch116: arm64-dts-rockchip-disable-USB-type-c-DisplayPort.patch
 
-# https://patchwork.kernel.org/patch/11787259/
-Patch117: arm64-pwm-rockchip-Keep-enabled-PWMs-running-while-probing.patch
-
 # Backport from 5.9
 Patch118: arm64-rockchip-pinebookpro-add-fuel-gauge.patch
 Patch119: arm64-tegra-enable-dfll-on-jetson-nano.patch
@@ -891,11 +885,25 @@ Patch120: iommu-tegra-smmu-Fix-TLB-line-for-Tegra210.patch
 # CVE-2020-16119 rhbz 1886374 1888083
 Patch121: CVE-2020-16119-DCCP-CCID-structure-use-after-free.patch
 
-# Surface Go series not booting regression fix (rhbz 1886249)
-# Also fixes some touchscreen regressions:
-# https://bugzilla.kernel.org/show_bug.cgi?id=209627
-# Pending for inclusion into stable series
-Patch123: 0001-i2c-core-Restore-acpi_walk_dep_device_list-getting-c.patch
+# A patch to fix some undocumented things broke a bunch of Allwinner networks due to wrong assumptions
+Patch124: 0001-update-phy-on-pine64-a64-devices.patch
+# https://patchwork.kernel.org/project/linux-arm-kernel/patch/20201024162515.30032-2-wens@kernel.org/
+Patch125: arm-sun8i-realtek-phy-fixes.patch
+# https://patchwork.kernel.org/project/linux-arm-kernel/patch/20201025140144.28693-1-ats@offog.org/
+Patch126: ARM-dts-sun7i-pcduino3-nano-enable-RGMII-RX-TX-delay-on-PHY.patch
+# https://patchwork.kernel.org/project/linux-arm-kernel/patch/20201025081949.783443-1-jernej.skrabec@siol.net/
+Patch127: ARM-dts-sun8i-r40-bananapi-m2-ultra-Fix-ethernet-node.patch
+# https://patchwork.kernel.org/project/linux-arm-kernel/patch/20201022185839.2779245-1-jernej.skrabec@siol.net/
+Patch128: arm64-dts-allwinner-a64-OrangePi-Win-Fix-ethernet-node.patch
+# https://patchwork.kernel.org/project/linux-arm-kernel/patch/20201028115817.68113-1-nperic@gmail.com/
+Patch129: arm64-dts-allwinner-h5-OrangePi-Prime-Fix-ethernet-node.patch
+# https://patchwork.kernel.org/project/linux-arm-kernel/patch/20201023184858.3272918-1-jernej.skrabec@siol.net/
+Patch130: arm64-dts-allwinner-h5-OrangePi-PC2-Fix-ethernet-node.patch
+# https://patchwork.kernel.org/project/linux-arm-kernel/patch/20201023194902.368239-1-jernej.skrabec@siol.net/
+Patch131: arm64-dts-allwinner-h6-Pine-H64-Fix-ethernet-node.patch
+
+# CVE-2020-27675 rhbz 1891114 1891115
+Patch132: 0001-xen-events-avoid-removing-an-event-channel-while-han.patch
 
 Patch900: 0001-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
@@ -1687,8 +1695,8 @@ cp_vmlinux()
 # from redhat-rpm-config assume that host == target so target arch
 # flags cause issues with the host compiler.
 %if !%{with_cross}
-%define build_hostcflags %{?build_cflags} -fipa-pta -flto=4 -fno-common -fgraphite-identity -floop-nest-optimize -O3 -fuse-linker-plugin -fno-semantic-interposition -falign-functions=32
-%define build_hostldflags %{?build_ldflags} -Wl,--build-id=uuid %{?build_hostcflags}
+%define build_hostcflags  %{?build_cflags}
+%define build_hostldflags %{?build_ldflags}
 %endif
 
 %define make make %{?cross_opts} %{?make_opts} HOSTCFLAGS="%{?build_hostcflags}" HOSTLDFLAGS="%{?build_hostldflags}"
@@ -3011,8 +3019,15 @@ fi
 #
 #
 %changelog
-* Wed Oct 28 18:57:12 CET 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.8.16-301
+* Fri Oct 30 18:04:50 CET 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.8.17-301
 - Add UKSM
+
+* Thu Oct 29 07:55:15 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.17-300
+- Linux v5.8.17
+- Fix CVE-2020-27675 (rhbz 1891114 1891115)
+
+* Wed Oct 28 2020 Peter Robinson <pbrobinson@fedoraproject.org>
+- Fixes for AllWinner wired network issues due to Realtek PHY driver change (rhbz 1889090)
 
 * Mon Oct 19 07:15:01 CDT 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.16-300
 - Linux v5.8.16
