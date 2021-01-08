@@ -54,6 +54,8 @@ Summary: The Linux kernel
 
 %if %{zipmodules}
 %global zipsed -e 's/\.ko$/\.ko.xz/'
+# for parallel xz processes, replace with 1 to go back to single process
+%global zcpu `nproc --all`
 %endif
 
 # define buildid .local
@@ -80,19 +82,19 @@ Summary: The Linux kernel
 # For non-released -rc kernels, this will be appended after the rcX and
 # gitX tags, so a 3 here would become part of release "0.rcX.gitX.3"
 #
-%global baserelease 301
+%global baserelease 201
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
 # on top of -- for example, 3.1-rc7-git1 starts with a 3.0 base,
 # which yields a base_sublevel of 0.
-%define base_sublevel 8
+%define base_sublevel 9
 
 ## If this is a released kernel ##
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 18
+%define stable_update 16
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -830,80 +832,31 @@ Patch65: 0001-ARM-fix-__get_user_check-in-case-uaccess_-calls-are-.patch
 Patch66: 0001-dt-bindings-panel-add-binding-for-Xingbangda-XBD599-.patch
 Patch67: 0001-drm-panel-add-Xingbangda-XBD599-panel.patch
 Patch68: 0001-drm-sun4i-sun6i_mipi_dsi-fix-horizontal-timing-calcu.patch
-Patch69: 0001-arm64-allwinner-dts-a64-add-LCD-related-device-nodes.patch
 Patch70: 0001-e1000e-bump-up-timeout-to-wait-when-ME-un-configure-.patch
-Patch72: 0001-virt-vbox-Rename-guest_caps-struct-members-to-set_gu.patch
-Patch73: 0001-virt-vbox-Add-vbg_set_host_capabilities-helper-funct.patch
-Patch74: 0001-virt-vbox-Add-support-for-the-new-VBG_IOCTL_ACQUIRE_.patch
-Patch75: 0001-virt-vbox-Add-a-few-new-vmmdev-request-types-to-the-.patch
-Patch76: 0001-virt-vbox-Log-unknown-ioctl-requests-as-error.patch
-Patch82: 0001-selinux-allow-reading-labels-before-policy-is-loaded.patch
-Patch83: 0001-Revert-dt-bindings-panel-add-binding-for-Xingbangda-.patch
-Patch84: 0001-Revert-drm-panel-add-Xingbangda-XBD599-panel.patch
-Patch85: 0001-Revert-drm-sun4i-sun6i_mipi_dsi-fix-horizontal-timin.patch
-Patch86: 0001-Revert-arm64-allwinner-dts-a64-add-LCD-related-devic.patch
-Patch87: 0001-dt-bindings-vendor-prefixes-Add-Xingbangda.patch
-Patch88: 0001-dt-bindings-panel-Convert-rocktech-jh057n00900-to-ya.patch
-Patch89: 0001-dt-bindings-panel-Add-compatible-for-Xingbangda-XBD5.patch
-Patch90: 0001-drm-panel-rocktech-jh057n00900-Rename-the-driver-to-.patch
-Patch91: 0001-drm-panel-st7703-Rename-functions-from-jh057n-prefix.patch
-Patch92: 0001-drm-panel-st7703-Prepare-for-supporting-multiple-pan.patch
-Patch93: 0001-drm-panel-st7703-Move-code-specific-to-jh057n-closer.patch
-Patch94: 0001-drm-panel-st7703-Move-generic-part-of-init-sequence-.patch
-Patch95: 0001-drm-panel-st7703-Add-support-for-Xingbangda-XBD599.patch
-Patch96: 0001-drm-panel-st7703-Enter-sleep-after-display-off.patch
-Patch97: 0001-drm-panel-st7703-Assert-reset-prior-to-powering-down.patch
-Patch98: 0001-arm64-dts-sun50i-a64-pinephone-Enable-LCD-support-on.patch
-Patch99: 0001-arm64-dts-sun50i-a64-pinephone-Add-touchscreen-suppo.patch
-Patch100: 0001-Work-around-for-gcc-bug-https-gcc.gnu.org-bugzilla-s.patch
-
-Patch101: 0001-PCI-Add-MCFG-quirks-for-Tegra194-host-controllers.patch
-Patch102: 0002-arm64-tegra-Re-order-PCIe-aperture-mappings-to-suppo.patch
-Patch103: arm64-tegra-Use-valid-PWM-period-for-VDD_GPU-on-Tegra210.patch
-
-# Goes away with 5.9
-Patch105: 0001-platform-x86-thinkpad_acpi-lap-or-desk-mode-interfac.patch
-
-# https://patchwork.kernel.org/patch/11745283/
-Patch108: brcmfmac-BCM4329-Fixes-and-improvement.patch
+Patch72: 0001-Work-around-for-gcc-bug-https-gcc.gnu.org-bugzilla-s.patch
 
 # https://patchwork.kernel.org/patch/11743769/
-Patch109: mmc-sdhci-iproc-Enable-eMMC-DDR-3.3V-support-for-bcm2711.patch
+Patch100: mmc-sdhci-iproc-Enable-eMMC-DDR-3.3V-support-for-bcm2711.patch
 
-Patch112: memory-tegra-Remove-GPU-from-DRM-IOMMU-group.patch
+# https://patchwork.kernel.org/patch/11745283/
+Patch101: brcmfmac-BCM4329-Fixes-and-improvement.patch
 
 # https://patchwork.kernel.org/patch/11796255/
-Patch116: arm64-dts-rockchip-disable-USB-type-c-DisplayPort.patch
+Patch102: arm64-dts-rockchip-disable-USB-type-c-DisplayPort.patch
 
-# Backport from 5.9
-Patch118: arm64-rockchip-pinebookpro-add-fuel-gauge.patch
-Patch119: arm64-tegra-enable-dfll-on-jetson-nano.patch
-
+# Tegra fixes
+Patch105: 0001-PCI-Add-MCFG-quirks-for-Tegra194-host-controllers.patch
+Patch106: arm64-tegra-Use-valid-PWM-period-for-VDD_GPU-on-Tegra210.patch
 # https://www.spinics.net/lists/linux-tegra/msg53605.html
-Patch120: iommu-tegra-smmu-Fix-TLB-line-for-Tegra210.patch
-
-# CVE-2020-16119 rhbz 1886374 1888083
-Patch121: CVE-2020-16119-DCCP-CCID-structure-use-after-free.patch
+Patch108: iommu-tegra-smmu-Fix-TLB-line-for-Tegra210.patch
 
 # A patch to fix some undocumented things broke a bunch of Allwinner networks due to wrong assumptions
 Patch124: 0001-update-phy-on-pine64-a64-devices.patch
-# https://patchwork.kernel.org/project/linux-arm-kernel/patch/20201024162515.30032-2-wens@kernel.org/
-Patch125: arm-sun8i-realtek-phy-fixes.patch
 # https://patchwork.kernel.org/project/linux-arm-kernel/patch/20201025140144.28693-1-ats@offog.org/
 Patch126: ARM-dts-sun7i-pcduino3-nano-enable-RGMII-RX-TX-delay-on-PHY.patch
-# https://patchwork.kernel.org/project/linux-arm-kernel/patch/20201025081949.783443-1-jernej.skrabec@siol.net/
-Patch127: ARM-dts-sun8i-r40-bananapi-m2-ultra-Fix-ethernet-node.patch
-# https://patchwork.kernel.org/project/linux-arm-kernel/patch/20201022185839.2779245-1-jernej.skrabec@siol.net/
-Patch128: arm64-dts-allwinner-a64-OrangePi-Win-Fix-ethernet-node.patch
-# https://patchwork.kernel.org/project/linux-arm-kernel/patch/20201028115817.68113-1-nperic@gmail.com/
-Patch129: arm64-dts-allwinner-h5-OrangePi-Prime-Fix-ethernet-node.patch
-# https://patchwork.kernel.org/project/linux-arm-kernel/patch/20201023184858.3272918-1-jernej.skrabec@siol.net/
-Patch130: arm64-dts-allwinner-h5-OrangePi-PC2-Fix-ethernet-node.patch
-# https://patchwork.kernel.org/project/linux-arm-kernel/patch/20201023194902.368239-1-jernej.skrabec@siol.net/
-Patch131: arm64-dts-allwinner-h6-Pine-H64-Fix-ethernet-node.patch
 
-# CVE-2020-27675 rhbz 1891114 1891115
-Patch132: 0001-xen-events-avoid-removing-an-event-channel-while-han.patch
+# rhbz 1897038
+Patch132: bluetooth-fix-LL-privacy-BLE-device-fails-to-connect.patch
 
 Patch900: 0001-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
@@ -2384,7 +2337,7 @@ find Documentation -type d | xargs chmod u+w
     fi \
   fi \
   if [ "%{zipmodules}" -eq "1" ]; then \
-    find $RPM_BUILD_ROOT/lib/modules/ -type f -name '*.ko' | %{SOURCE79} %{?_smp_mflags}; \
+    find $RPM_BUILD_ROOT/lib/modules/ -type f -name '*.ko' | xargs -P%{zcpu} xz; \
   fi \
 %{nil}
 
@@ -3019,8 +2972,50 @@ fi
 #
 #
 %changelog
-* Thu Nov  5 13:28:29 CET 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.8.18-301
+* Fri Jan  8 20:30:55 CET 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.9.16-201
 - Add UKSM
+
+* Mon Dec 21 07:41:08 CST 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.16-200
+- Linux v5.9.16
+
+* Wed Dec 16 08:06:21 CST 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.15-200
+- Linux v5.9.15
+
+* Fri Dec 11 07:14:10 CST 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.14-200
+- Linux v5.9.14
+- Fixes CVE-2020-29660 (rhbz 1906522 1906523)
+- Fixes CVE-2020-29661 (rhbz 1906525 1906526)
+
+* Tue Dec  8 08:04:29 CST 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.13-200
+- Linux v5.9.13
+
+* Wed Dec  2 07:55:34 CST 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.12-200
+- Linux v5.9.12
+
+* Tue Nov 24 11:22:38 CST 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.11-200
+- Linux v5.9.11
+
+* Mon Nov 23 09:58:15 CST 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.10-200
+- Linux v5.9.10
+- Fix CVE-2020-28941 (rhbz 1899985 1899986)
+- Fix CVE-2020-4788 (rhbz 1888433 1900437)
+
+* Thu Nov 19 07:09:26 CST 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.9-200
+- Linux v5.9.9
+- Enable NANDSIM (rhbz 1898638)
+
+* Thu Nov 12 2020 Justin M. Forbes <jforbes@fedoraproject.org>
+- Fix bluetooth device disconnect issues. (rhbz 1897038)
+
+* Tue Nov 10 15:34:25 CST 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.9.8-200
+- Linux v5.9.8
+- Fixes CVE-2020-8694 (rhbz 1828580 1896525)
+
+* Tue Nov 10 2020 <jforbes@fedoraproject.org> - 5.9.7-200
+- Linux v5.9.7 rebase
+- Fixes CVE-2020-25668 (rhbz 1893287 1893288)
+- Fixes CVE-2020-27673 (rhbz 1891110 1891112)
+- Fixes CVE-2020-25704 (rhbz 1895951 1895963)
 
 * Mon Nov  2 10:50:39 CST 2020 Justin M. Forbes <jforbes@fedoraproject.org> - 5.8.18-300
 - Linux v5.8.18
