@@ -82,7 +82,7 @@ Summary: The Linux kernel
 # For non-released -rc kernels, this will be appended after the rcX and
 # gitX tags, so a 3 here would become part of release "0.rcX.gitX.3"
 #
-%global baserelease 201
+%global baserelease 202
 %global fedora_build %{baserelease}
 
 # base_sublevel is the kernel version we're starting with and patching
@@ -94,7 +94,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 7
+%define stable_update 9
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -845,6 +845,9 @@ Patch102: 0001-update-phy-on-pine64-a64-devices.patch
 
 # OMAP Pandaboard fix
 Patch103: arm-pandaboard-fix-add-bluetooth.patch
+
+# Fix for USB on some newer RPi4 / firmware combinations
+Patch104: 0001-brcm-rpi4-fix-usb-numeration.patch
 
 # Nouveau mDP detection fix
 Patch107: 0001-drm-nouveau-kms-handle-mDP-connectors.patch
@@ -2963,8 +2966,17 @@ fi
 #
 #
 %changelog
-* Sun Jan 17 22:40:01 CET 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.10.7-201
+* Thu Jan 21 12:07:20 CET 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.10.9-202
 - Add UKSM
+
+* Wed Jan 20 2021 Peter Robinson <pbrobinson@fedoraproject.org> - 5.10.9-201
+- Fix for ARMv7 builder pause issue
+
+* Tue Jan 19 15:00:17 CST 2021 Justin M. Forbes <jforbes@fedoraproject.org> - 5.10.9-200
+- Linux v5.10.9
+
+* Sun Jan 17 13:09:31 CST 2021 Justin M. Forbes <jforbes@fedoraproject.org> - 5.10.8-200
+- Linux v5.10.8
 
 * Tue Jan 12 13:41:35 CST 2021 Justin M. Forbes <jforbes@fedoraproject.org> - 5.10.7-200
 - Linux v5.10.7
