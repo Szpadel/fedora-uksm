@@ -94,7 +94,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 12
+%define stable_update 13
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -848,6 +848,9 @@ Patch103: arm-pandaboard-fix-add-bluetooth.patch
 
 # Fix for USB on some newer RPi4 / firmware combinations
 Patch104: 0001-brcm-rpi4-fix-usb-numeration.patch
+
+# RPi-4 and wifi issues
+Patch105: arm-dts-rpi-4-disable-wifi-frequencies.patch
 
 # Nouveau mDP detection fix
 Patch107: 0001-drm-nouveau-kms-handle-mDP-connectors.patch
@@ -2969,8 +2972,11 @@ fi
 #
 #
 %changelog
-* Wed Feb 03 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.10.12-201
+* Sun Feb 07 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.10.13-201
 - Add UKSM
+
+* Thu Feb 04 2021 Justin M. Forbes <jforbes@fedoraproject.org> - 5.10.13-200
+- Linux v5.10.13
 
 * Mon Feb 01 2021 Justin M. Forbes <jforbes@fedoraproject.org> - 5.10.12-200
 - Linux v5.10.12
