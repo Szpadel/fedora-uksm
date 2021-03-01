@@ -94,7 +94,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 13
+%define stable_update 19
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -855,8 +855,10 @@ Patch105: arm-dts-rpi-4-disable-wifi-frequencies.patch
 # Nouveau mDP detection fix
 Patch107: 0001-drm-nouveau-kms-handle-mDP-connectors.patch
 
-# rhbz 1918778
-Patch108: media-pwc-fix-the-urb-buffer-allocation.patch
+Patch109: 0001-Revert-drm-amd-display-Update-NV1x-SR-latency-values.patch
+
+# rhbz 1925346
+Patch111: i915-fixes.patch
 
 Patch900: 0001-Add-UKSM.patch
 # END OF PATCH DEFINITIONS
@@ -2972,8 +2974,34 @@ fi
 #
 #
 %changelog
-* Sun Feb 07 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.10.13-201
+* Mon Mar 01 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 5.10.19-201
 - Add UKSM
+
+* Fri Feb 26 2021 Justin M. Forbes <jforbes@fedoraproject.org> - 5.10.19-200
+- Linux v5.10.19
+
+* Thu Feb 25 2021 Justin M. Forbes <jforbes@fedoraproject.org>
+- Some i915 fixes for 5.10 (rhbz 1925346)
+
+* Tue Feb 23 2021 Justin M. Forbes <jforbes@fedoraproject.org> - 5.10.18-200
+- Linux v5.10.18
+
+* Thu Feb 18 2021 Hans de Goede <hdegoede@redhat.com>
+- Fix various QCA bluetooth devices no longer working (rhbz#1916104)
+
+* Wed Feb 17 2021 Justin M. Forbes <jforbes@fedoraproject.org> - 5.10.17-200
+- Linux v5.10.17
+
+* Sat Feb 13 2021 Justin M. Forbes <jforbes@fedoraproject.org> - 5.10.16-200
+- Linux v5.10.16
+
+* Wed Feb 10 2021 Justin M. Forbes <jforbes@fedoraproject.org> - 5.10.15-200
+- Linux v5.10.15
+- Fixes CVE-2021-20194 (rhbz 1912683 1926781)
+- Fixes rhbz 1916674
+
+* Sun Feb 07 2021 Justin M. Forbes <jforbes@fedoraproject.org> - 5.10.14-200
+- Linux v5.10.14
 
 * Thu Feb 04 2021 Justin M. Forbes <jforbes@fedoraproject.org> - 5.10.13-200
 - Linux v5.10.13
